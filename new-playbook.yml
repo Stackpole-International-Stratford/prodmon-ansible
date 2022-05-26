@@ -1,0 +1,18 @@
+---
+- name: Setup New machine for use
+  hosts: new
+  remote_user: root
+
+  tasks:
+  - name: save /etc/apt/sources.list
+    ansible.builtin.copy:
+      src: /etc/apt/sources.list.orig
+      dest: /etc/apt/sources.list
+      remote_src: yes
+      backup: yes
+
+  - name: Update repositories cache and perform upgrade
+    apt:
+      update_cache: yes
+      upgrade: safe
+      

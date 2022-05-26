@@ -1,0 +1,8 @@
+
+Turn off host checking (for the session)
+  export ANSIBLE_HOST_KEY_CHECKING=False
+
+Add ssh fingerprint to known_hosts:
+  https://stackoverflow.com/questions/42462435/ansible-provisioning-error-using-a-ssh-password-instead-of-a-key-is-not-possibl
+  ssh-keyscan -H [target machine IP] >> ~/.ssh/known_hosts
+

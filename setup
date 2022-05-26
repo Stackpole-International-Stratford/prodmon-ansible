@@ -1,0 +1,8 @@
+export ANSIBLE_INVENTORY=~/prodmon-config/ansible_hosts
+echo ""
+echo "To setup a new device:"
+echo "  ansible-playbook new-playbook.yml" 
+echo ""
+echo "To apply config plant wide:"
+echo "  ansible-playbook floor-playbook.yml"
+echo ""
