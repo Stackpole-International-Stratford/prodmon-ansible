@@ -1,3 +1,13 @@
+Usage:
+  run '. setup' in this directory to setup envroment variables and print usage info
+
+To update a new chip .93 unit at my desk:
+ ansible-playbook new-playbook.yml
+
+To run plant wide:
+ ansible-playbook floor-playbook.yml
+
+
 
 Turn off host checking (for the session)
   export ANSIBLE_HOST_KEY_CHECKING=False

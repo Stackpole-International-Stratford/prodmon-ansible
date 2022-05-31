@@ -11,8 +11,32 @@
       remote_src: yes
       backup: yes
 
-  - name: Update repositories cache and perform upgrade
-    apt:
+  - name: Update apt cache
+    ansible.builtin.apt:
       update_cache: yes
-      upgrade: safe
-      
+
+  - name: Install some common packages 
+    ansible.builtin.apt:
+      pkg:
+        - nano
+        - ufw
+        - python3-pip
+
+  - name: Configure DNS
+    ansible.builtin.lineinfile:
+      path: /etc/systemd/resolved.conf
+      search_string: "#DNS="
+      line: "DNS=10.4.1.200 10.5.1.200"
+
+  - name: Configure LAN port
+    ansible.builtin.template:
+      src: ./eth1.j2
+      dest: /etc/network/interfaces.d/eth1
+
+  - name: Configure WAN port      
+    ansible.builtin.template:
+      src: ./eth0.j2
+      dest: /etc/network/interfaces.d/eth0
+
+  - name: Safe Shutdown
+    community.general.shutdown:
