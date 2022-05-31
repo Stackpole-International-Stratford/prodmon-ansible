@@ -1,0 +1,22 @@
+---
+- name: Maintain machines on the floor
+  hosts: active
+  remote_user: root
+
+  tasks:
+  - name: Update repositories cache and perform a safe upgrade
+    apt:
+      update_cache: yes
+      upgrade: safe
+
+  - name: Clean up apt
+    apt:
+      autoclean: yes
+      autoremove: yes
+
+  - name: Install packages
+    apt:
+      pkg:
+       - nano
+       - ufw
+      update_cache: yes
