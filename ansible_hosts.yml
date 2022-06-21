@@ -11,7 +11,7 @@ all:
         10.4.42.119:
           wanIP: '10.4.42.119'
           lanIP: '192.168.100.254'
-          ansible_ssh_pass: root
+          ansible_ssh_user: root
           ansible_ssh_pass: fa
           iplist:
             - 
