@@ -1,0 +1,35 @@
+all:
+  children:
+    new:
+      hosts:
+        192.168.1.21:
+          ansible_ssh_user: root
+          ansible_ssh_pass: fa
+   
+    test:
+      hosts:
+        10.4.42.119:
+           lanIP: '192.168.100.254'
+           ansible_ssh_pass: root
+           ansible_ssh_pass: fa
+           iplist:
+             - 
+               internal: "192.168.1.50"
+               external:  "10.4.142.118"
+             - 
+               internal: "192.168.1.51"
+               external: "10.4.42.117"
+    AB1V:
+      hosts:
+        10.4.42.100:
+          lanIP: '192.168.100.254'
+        10.4.42.101:
+          lanIP: '192.168.100.254'
+        10.4.42.102:
+          lanIP: '192.168.100.254'
+        10.4.42.103:
+          lanIP:  '192.168.100.254'
+        10.4.42.104:
+          lanIP: '192.168.100.254'
+
+
