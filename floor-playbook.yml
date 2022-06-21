@@ -20,3 +20,14 @@
        - nano
        - ufw
       update_cache: yes
+
+  - name: Configure WAN port
+    ansible.builtin.template:
+      src: ./eth0.j2
+      dest: /etc/network/interfaces.d/eth0
+
+  - name: Configure LAN port
+    ansible.builtin.template:
+      src: ./eth1.j2
+      dest: /etc/network/interfaces.d/eth1
+
