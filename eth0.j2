@@ -4,10 +4,13 @@ iface eth0 inet static
   netmask 255.255.192.0
   gateway 10.4.1.9
 
-{% for item in iplist %}
+{% if iplist is defined %}
+  {% for item in iplist %}
+
 auto eth0:{{ loop.index0 }}
 iface eth0:{{ loop.index0 }} inet static
   address {{item.external }}
   netmask 255.255.192.0
 
-{% endfor %}
+  {% endfor %}
+{% endif %}

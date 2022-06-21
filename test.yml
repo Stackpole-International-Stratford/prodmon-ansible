@@ -57,6 +57,7 @@
       jump: DNAT
       to_destination: "{{ item.internal }}" 
     with_items: "{{ iplist }}"
+    when: iplist is defined
 
   - name: build POSTROUTING rules from list 
     ansible.builtin.iptables:
@@ -66,3 +67,4 @@
       jump: SNAT
       to_source: "{{ item.external }}"
     with_items: "{{ iplist }}"
+    when: iplist is defined
