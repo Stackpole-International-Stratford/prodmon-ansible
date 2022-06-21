@@ -1,0 +1,92 @@
+---
+- name: Maintain all edge devices
+  hosts: all
+  remote_user: root
+
+  tasks:
+  - name: update /etc/apt/sources.list
+    ansible.builtin.copy:
+      src: /etc/apt/sources.list.orig
+      dest: /etc/apt/sources.list
+      remote_src: yes
+      backup: yes
+
+  - name: Update repositories cache and perform a safe upgrade
+    apt:
+      update_cache: yes
+#     upgrade: safe
+
+  - name: Clean up apt
+    apt:
+      autoclean: yes
+      autoremove: yes
+
+  - name: Install packages
+    apt:
+      pkg:
+       - nano
+       - ufw
+      update_cache: yes
+
+###############################################################################################
+#
+# configure /etc/network/interfaces.d files
+#
+##############################################################################################
+
+  - name: Configure WAN port
+    ansible.builtin.template:
+      src: ./eth0.j2
+      dest: /etc/network/interfaces.d/eth0
+
+  - name: Configure LAN port
+    ansible.builtin.template:
+      src: ./eth1.j2
+      dest: /etc/network/interfaces.d/eth1
+
+###############################################################################################
+#
+#  IP tables setup
+#
+###############################################################################################
+
+  - name: "flush all iptables rules"
+    iptables:
+      table: nat
+      flush: yes
+
+  - name: build PREROUTING rules from list
+    ansible.builtin.iptables:
+      table: nat
+      chain: PREROUTING
+      destination: "{{ item.external }}"
+      jump: DNAT
+      to_destination: "{{ item.internal }}"
+    with_items: "{{ iplist }}"
+    when: iplist is defined
+    notify:
+      - Restart networking
+
+  - name: build POSTROUTING rules from list
+    ansible.builtin.iptables:
+      table: nat
+      chain: POSTROUTING
+      destination: "{{ item.internal }}"
+      jump: SNAT
+      to_source: "{{ item.external }}"
+    with_items: "{{ iplist }}"
+    when: iplist is defined
+    notify:
+      - Restart networking
+
+  handlers:
+    - name: Restart iptables
+      ansible.builtin.service:
+        name: iptables
+        state: restarted
+
+# this must run last: a new setup changes the ip address of the wan interface
+    - name: Restart networking
+      ansible.builtin.service:
+        name: networking
+        state: restarted
