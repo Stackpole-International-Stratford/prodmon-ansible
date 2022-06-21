@@ -1,5 +1,14 @@
 [new]
-192.168.1.21 ansible_ssh_pass=root   ansible_ssh_pass=fa
+192.168.1.21
+[new:vars]
+ansible_ssh_user=root
+ansible_ssh_pass=fa
+
+[test]
+10.4.42.119 lanIP='192.168.100.254' ansible_ssh_pass=root ansible_ssh_pass=fa 
+[test:vars]
+iplist=[["192.168.1.50","10.4.142.118"],["192.168.1.51","10.4.42.117"]]
+
 
 [AB1V]
 10.4.42.100 lanIP='192.168.100.254'
