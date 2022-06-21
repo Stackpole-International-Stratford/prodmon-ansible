@@ -1,8 +1,8 @@
-export ANSIBLE_INVENTORY=./ansible_hosts.ynl
+export ANSIBLE_INVENTORY=ansible_hosts.yml
 echo ""
 echo "To setup a new device:"
-echo "  ansible-playbook new-playbook.yml -e 'lanIP=xx.xx.xx.xx wanIP=xx.xx.xx.xx'" 
+echo "  ansible-playbook playbook.yml -e 'lanIP=xx.xx.xx.xx wanIP=xx.xx.xx.xx'" -l new 
 echo ""
 echo "To apply config plant wide:"
-echo "  ansible-playbook floor-playbook.yml"
+echo "  ansible-playbook playbook.yml -l \!new"
 echo ""
