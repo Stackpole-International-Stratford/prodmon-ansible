@@ -32,3 +32,13 @@ https://superuser.com/questions/1719569/how-to-forward-all-ports-on-a-ipaddress-
 
 
 
+###  Timezone and NTP
+=====================
+use ansible shell to add ntp server to configs
+
+using systemd to setup builtin ntp
+https://feeding.cloud.geek.nz/posts/time-synchronization-with-ntp-and-systemd/
+
+ansible setting timezone:
+https://stackoverflow.com/questions/41294214/ansible-timezone-module-fails-different-reasons-on-different-oses#comment69793819_41294214
+

@@ -87,11 +87,62 @@
     notify:
       - Restart networking
 
+
+#################################################################################################
+#
+# Date time and timezone
+#
+#################################################################################################
+
+  - name: remove old ntp  
+    ansible.builtin.apt:
+      name: ntp
+      state: absent
+
+  - name: add ntp server to config
+    ansible.builtin.shell:
+      cmd: sed -i '/#NTP=/c\NTP=10.4.1.200' /etc/systemd/timesyncd.conf
+
+  - name: ensure systemd-timesyncd is enabled and started
+    ansible.builtin.systemd:
+      name: systemd-timesyncd
+      state: started
+      enabled: yes
+      daemon_reload: yes
+
+  - name: set timezone to America/Toronto
+    timezone:
+      name: America/Toronto
+
+
+
+#################################################################################################
+#
+#  Reboot the unit every sunday morning at 4am
+#
+#################################################################################################
+
+  - name: Reboot Sundays at 4AM
+    ansible.builtin.cron:
+      name: "system reboot"
+      minute: "0"
+      hour: "4"
+      weekday: 0
+      job: "reboot now"
+
+
+
+
+
+
+
+#################################################################################################
+#
+#  handlers
+#
+#################################################################################################
+
   handlers:
-    - name: Restart iptables
-      ansible.builtin.service:
-        name: iptables
-        state: restarted
 
 # this must run last: a new setup changes the ip address of the wan interface
     - name: Restart networking
