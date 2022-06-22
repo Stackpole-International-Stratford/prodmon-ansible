@@ -2,12 +2,10 @@ Usage:
   run '. setup' in this directory to setup envroment variables and print usage info
 
 To update a new chip .20 unit at my desk:
- ansible-playbook new-playbook.yml
+ ansible-playbook playbook.yml -l new
 
 To run plant wide:
- ansible-playbook floor-playbook.yml
-
-
+ ansible-playbook playbook.yml -l \!new,\!test
 
 Turn off host checking (for the session)
   export ANSIBLE_HOST_KEY_CHECKING=False
@@ -15,4 +13,22 @@ Turn off host checking (for the session)
 Add ssh fingerprint to known_hosts:
   https://stackoverflow.com/questions/42462435/ansible-provisioning-error-using-a-ssh-password-instead-of-a-key-is-not-possibl
   ssh-keyscan -H [target machine IP] >> ~/.ssh/known_hosts
+
+###  IPtables stuff
+==================
+ansible iptables module docs
+https://docs.ansible.com/ansible/latest/collections/ansible/builtin/iptables_module.html
+
+persist iptable rules
+https://me.sdnix.com/how-we-manage-iptables-now-and-then/
+https://me.sdnix.com/install-iptables-persistent-with-ansible/
+
+enable ip_forwarding (so it works...)
+https://www.ducea.com/2006/08/01/how-to-enable-ip-forwarding-in-linux/
+
+routing rules:
+superuser question:
+https://superuser.com/questions/1719569/how-to-forward-all-ports-on-a-ipaddress-interface-to-another-ipaddress-on-anothe
+
+
 
