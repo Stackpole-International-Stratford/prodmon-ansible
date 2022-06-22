@@ -51,9 +51,17 @@
 ###############################################################################################
 
   - name: "flush all iptables rules"
-    iptables:
+    ansible.builtin.iptables:
       table: nat
       flush: yes
+
+
+  - name: enable IP Forwarding in the kernel if needed
+    ansible.posix.sysctl:
+      name: net.ipv4.ip_forward
+      value: 1
+      sysctl_set: yes
+    when: iplist is defined
 
   - name: build PREROUTING rules from list
     ansible.builtin.iptables:
@@ -73,7 +81,7 @@
       chain: POSTROUTING
       destination: "{{ item.internal }}"
       jump: SNAT
-      to_source: "{{ item.external }}"
+      to_source: "{{ lanIP }}"
     with_items: "{{ iplist }}"
     when: iplist is defined
     notify:

@@ -8,18 +8,15 @@ all:
    
     test:
       hosts:
-        10.4.42.119:
-          wanIP: '10.4.42.119'
-          lanIP: '192.168.100.254'
+        10.4.42.186:
+          wanIP: '10.4.42.186'
+          lanIP: '192.168.1.254'
           ansible_ssh_user: root
           ansible_ssh_pass: fa
           iplist:
             - 
-              internal: '192.168.1.50'
-              external: '10.4.142.118'
-            - 
-              internal: '192.168.1.51'
-              external: '10.4.42.117'
+              internal: '192.168.1.1'
+              external: '10.4.42.215'
     AB1V:
       hosts:
         10.4.42.100:
