@@ -7,8 +7,8 @@ all:
           ansible_ssh_pass: fa
    
     test:
-      hosts:
-        10.4.42.186:
+     hosts:        
+       10.4.42.186:
           wanIP: '10.4.42.186'
           lanIP: '192.168.1.254'
           ansible_ssh_user: root
@@ -19,15 +19,30 @@ all:
               external: '10.4.42.215'
     AB1V:
       hosts:
-        10.4.42.100:
+        10.4.42.109:  # AB1V Rx OP80 OD OP80 1719
+          wanIP: '10.4.42.109'
           lanIP: '192.168.100.254'
-        10.4.42.101:
-          lanIP: '192.168.100.254'
-        10.4.42.102:
-          lanIP: '192.168.100.254'
-        10.4.42.103:
-          lanIP:  '192.168.100.254'
-        10.4.42.104:
-          lanIP: '192.168.100.254'
+          iplist:
+            - 
+              internal: '192.168.100.20' # Main PLC
+              external: '10.4.42.216'
+#           -  # example of multiple redirections
+#             internal: '192.168.100.20'
+#             external: '10.4.42.217'
 
+
+
+
+      vars:
+          ansible_ssh_user: root
+          ansible_ssh_pass: fa
+
+
+    TenR60:
+      hosts:
+        10.4.42.166: 
+          wanIP: '10.4.42.166'
+          lanIP: '192.168.1.254'
+          ansible_ssh_user: 'debian'
+          ansible_ssh_pass: 'temppwd'
 
