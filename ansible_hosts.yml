@@ -28,24 +28,6 @@ all:
 
     AB1V:
       hosts:
-        10.4.42.109:  # AB1V Rx OP80 OD OP80 1719
-          wanIP: '10.4.42.109'
-          lanIP: '192.168.100.254'
-          iplist:
-            - 
-              internal: '192.168.100.20' # Main PLC
-              external: '10.4.42.220'
-#           -  # example of multiple redirections
-#             internal: '192.168.100.20'
-#             external: '10.4.42.217'
-
-        10.4.42.100:  # AB1V Rx OP50 659 626
-          wanIP: '10.4.42.100'
-          lanIP: '192.168.1.254'
-          iplist:
-            -
-              internal: '192.168.1.1' # Main PLC
-              external: '10.4.42.216'
 
         10.4.42.101:  # AB1V Rx OD Bal Slurry 1712 1713 1716
           wanIP: '10.4.42.101'
@@ -60,15 +42,38 @@ all:
             -
               internal: '192.168.100.114' # 1712 Rx Balancer (for current running part type)
               external: '10.4.42.223'
+            -
+              internal: '192.168.100.13' # Rx Robot 1716R
+              external: '10.4.42.232'
+            -
+              internal: '192.168.100.12' # Od Robot 1712R
+              external: '10.4.42.233'
+            -
+              internal: '192.168.100.115' # 1716 Slurry Debur
+              external: '10.4.42.233'
 
-
-        10.4.42.110:  # AB1V 10R140 Wash Load 1723
-          wanIP: '10.4.42.110'
+        10.4.42.114:  # AB1V IN 10R Bal Slurry 1714 1715 1717
+          wanIP: '10.4.42.114'
           lanIP: '192.168.100.254'
           iplist:
             -
-              internal: '192.168.100.30' # Main PLC
-              external: '10.4.42.218'
+              internal: '192.168.100.60' # Main PLC
+              external: '10.4.42.237'
+            -
+              internal: '192.168.100.164' # 1715 Balancer
+              external: '10.4.42.238'
+            -
+              internal: '192.168.100.163' # 1714 Balancer
+              external: '10.4.42.239'
+            -
+              internal: '192.168.100.62' # Robot 1715R
+              external: '10.4.42.235'
+            -
+              internal: '192.168.100.63' # Od Robot 1717R
+              external: '10.4.42.236'
+            -
+              internal: '192.168.100.165' # 1717 Slurry Debur
+              external: '10.4.42.240'
 
         10.4.42.107:  # AB1V Rx Busing press 1727
           wanIP: '10.4.42.107'
@@ -78,6 +83,44 @@ all:
               internal: '192.168.1.10' # Main PLC
               external: '10.4.42.219'
 
+        10.4.42.106:  # AB1V 10R140 Wash Load 1723
+          wanIP: '10.4.42.106'
+          lanIP: '192.168.100.254'
+          iplist:
+            -
+              internal: '192.168.100.30' # Main PLC
+              external: '10.4.42.218'
+            -
+              internal: '192.168.100.32' # Main PLC
+              external: '10.4.42.231'
+
+
+        10.4.42.109:  # AB1V Rx OP80 OD OP80 1719
+          wanIP: '10.4.42.109'
+          lanIP: '192.168.100.254'
+          iplist:
+            -
+              internal: '192.168.100.20' # Main PLC
+              external: '10.4.42.220'
+            -
+              internal: '192.168.100.20' # Fanuc Robot
+              external: '10.4.42.230'
+
+        10.4.42.100:  # AB1V Rx OP50 659 626
+          wanIP: '10.4.42.100'
+          lanIP: '192.168.1.254'
+          iplist:
+            -
+              internal: '192.168.1.1' # Main PLC
+              external: '10.4.42.216'
+            -
+              internal: '192.168.1.3' # Fanuc Robot
+              external: '10.4.42.228'
+            -
+              internal: '192.168.1.2' # HMI 
+              external: '10.4.42.229'
+
+
         10.4.42.103:  # AB1V OD Drill Ream 1722
           wanIP: '10.4.42.103'
           lanIP: '192.168.1.254'
@@ -85,14 +128,26 @@ all:
             -
               internal: '192.168.1.1' # Main PLC
               external: '10.4.42.221'
+            -
+              internal: '192.168.1.3' # Fanuc robot
+              external: '10.4.42.226'
+            -
+              internal: '192.168.1.2' # Panelview HMI
+              external: '10.4.42.227'
 
-        10.4.42.111:  # AB1V In 10R140 HP Wash 1706
-          wanIP: '10.4.42.111'
-          lanIP: '192.168.1.254'
+        10.4.42.113:  # AB1V In 10R140 HP Wash 1706
+          wanIP: '10.4.42.113'
+          lanIP: '192.168.100.254'
           iplist:
             -
               internal: '192.168.100.50' # Main PLC
-              external: '10.4.42.222'
+              external: '10.4.42.224'
+            -
+              internal: '192.168.100.52' # Fanuc Robot
+              external: '10.4.42.225'
+
+
+
 
       vars:
         ansible_ssh_user: root
