@@ -17,6 +17,15 @@ all:
             - 
               internal: '192.168.1.1'
               external: '10.4.42.215'
+    Ansible:
+      hosts:
+        10.4.42.250:
+          wanIP: '10.4.42.250'
+          lanIP: '192.268.1.250'
+          ansible_ssh_user: root
+          ansible_ssh_pass: fa
+
+
     AB1V:
       hosts:
         10.4.42.109:  # AB1V Rx OP80 OD OP80 1719
@@ -25,17 +34,75 @@ all:
           iplist:
             - 
               internal: '192.168.100.20' # Main PLC
-              external: '10.4.42.216'
+              external: '10.4.42.220'
 #           -  # example of multiple redirections
 #             internal: '192.168.100.20'
 #             external: '10.4.42.217'
 
+        10.4.42.100:  # AB1V Rx OP50 659 626
+          wanIP: '10.4.42.100'
+          lanIP: '192.168.1.254'
+          iplist:
+            -
+              internal: '192.168.1.1' # Main PLC
+              external: '10.4.42.216'
+
+        10.4.42.101:  # AB1V Rx OD Bal Slurry 1712 1713 1716
+          wanIP: '10.4.42.101'
+          lanIP: '192.168.100.254'
+          iplist:
+            -
+              internal: '192.168.100.10' # Main PLC
+              external: '10.4.42.217'
+            -
+              internal: '192.168.100.113' # 1713 OD Balancer (for current running part type) 
+              external: '10.4.42.222'
+            -
+              internal: '192.168.100.114' # 1712 Rx Balancer (for current running part type)
+              external: '10.4.42.223'
 
 
+        10.4.42.110:  # AB1V 10R140 Wash Load 1723
+          wanIP: '10.4.42.110'
+          lanIP: '192.168.100.254'
+          iplist:
+            -
+              internal: '192.168.100.30' # Main PLC
+              external: '10.4.42.218'
+
+        10.4.42.107:  # AB1V Rx Busing press 1727
+          wanIP: '10.4.42.107'
+          lanIP: '192.168.1.254'
+          iplist:
+            -
+              internal: '192.168.1.10' # Main PLC
+              external: '10.4.42.219'
+
+        10.4.42.103:  # AB1V OD Drill Ream 1722
+          wanIP: '10.4.42.103'
+          lanIP: '192.168.1.254'
+          iplist:
+            -
+              internal: '192.168.1.1' # Main PLC
+              external: '10.4.42.221'
+
+        10.4.42.111:  # AB1V In 10R140 HP Wash 1706
+          wanIP: '10.4.42.111'
+          lanIP: '192.168.1.254'
+          iplist:
+            -
+              internal: '192.168.100.50' # Main PLC
+              external: '10.4.42.222'
 
       vars:
-          ansible_ssh_user: root
-          ansible_ssh_pass: fa
+        ansible_ssh_user: root
+        ansible_ssh_pass: fa
+
+#########################################################################################
+#
+#   10R
+#
+#########################################################################################
 
 
     TenR60:
@@ -45,4 +112,34 @@ all:
           lanIP: '192.168.1.254'
           ansible_ssh_user: 'debian'
           ansible_ssh_pass: 'temppwd'
+
+
+#########################################################################################
+#
+#   CI Department
+#
+#########################################################################################
+
+    CI:  # Hosts setup for Christian
+      hosts:
+        10.4.42.112:  # 441 Sizing Cell
+          wanIP: '10.4.42.112'
+          lanIP: '192.168.10.254'
+          iplist:
+            - # Automation PLC
+              internal: '192.168.10.21'
+              external: '10.4.42.35'
+            - # Fanuc Robot
+              internal: '192.168.10.22'
+              external: '10.4.42.36'
+            - # 441 Sizing Press
+              internal: '192.168.10.10'
+              external: '10.4.42.37'
+            - # PanelView HMI
+              internal: '192.168.10.23'
+              external: '10.4.42.38'
+
+      vars:
+        ansible_ssh_user: root
+        ansible_ssh_pass: fa
 
