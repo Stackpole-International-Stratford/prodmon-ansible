@@ -50,7 +50,7 @@ all:
               external: '10.4.42.233'
             -
               internal: '192.168.100.115' # 1716 Slurry Debur
-              external: '10.4.42.233'
+              external: '10.4.42.234'
 
         10.4.42.114:  # AB1V IN 10R Bal Slurry 1714 1715 1717
           wanIP: '10.4.42.114'
@@ -83,8 +83,8 @@ all:
               internal: '192.168.1.10' # Main PLC
               external: '10.4.42.219'
 
-        10.4.42.106:  # AB1V 10R140 Wash Load 1723
-          wanIP: '10.4.42.106'
+        10.4.42.115:  # AB1V 10R140 Wash Load 1723
+          wanIP: '10.4.42.115'
           lanIP: '192.168.100.254'
           iplist:
             -
