@@ -75,8 +75,8 @@ all:
               internal: '192.168.100.165' # 1717 Slurry Debur
               external: '10.4.42.240'
 
-        10.4.42.107:  # AB1V Rx Busing press 1727
-          wanIP: '10.4.42.107'
+        10.4.42.102:  # AB1V Rx Busing press 1727
+          wanIP: '10.4.42.102'
           lanIP: '192.168.1.254'
           iplist:
             -
@@ -93,7 +93,6 @@ all:
             -
               internal: '192.168.100.32' # Main PLC
               external: '10.4.42.231'
-
 
         10.4.42.109:  # AB1V Rx OP80 OD OP80 1719
           wanIP: '10.4.42.109'
@@ -120,7 +119,6 @@ all:
               internal: '192.168.1.2' # HMI 
               external: '10.4.42.229'
 
-
         10.4.42.103:  # AB1V OD Drill Ream 1722
           wanIP: '10.4.42.103'
           lanIP: '192.168.1.254'
@@ -146,7 +144,95 @@ all:
               internal: '192.168.100.52' # Fanuc Robot
               external: '10.4.42.225'
 
+        10.4.42.105:  # AB1V In Bushing Press 1726
+          wanIP: '10.4.42.105'
+          lanIP: '192.168.1.254'
+          iplist:
+            -
+              internal: '192.168.1.10' # Main PLC
+              external: '10.4.42.127'
 
+        10.4.42.117:  # AB1V 629 621
+          wanIP: '10.4.42.117'
+          lanIP: '192.168.1.254'
+          iplist:
+            -
+              internal: '192.168.1.31' # Main PLC
+              external: '10.4.42.127'
+            -
+              internal: '192.168.1.41' # Elevator PLC
+              external: '10.4.42.127'
+            -
+              internal: '192.168.1.33' # Fanuc Robot
+              external: '10.4.42.127'
+            -
+              internal: '192.168.1.32' # Panelview
+              external: '10.4.42.127'
+
+        10.4.42.108:  # AB1V In Bushing Press 1726
+          wanIP: '10.4.42.108'
+          lanIP: '192.168.100.253'
+          iplist:
+            -
+              internal: '192.168.100.70' # Main PLC
+              external: '10.4.42.120'
+            -
+              internal: '192.168.100.72' # Fanuc Robot
+              external: '10.4.42.121'
+            -
+              internal: '192.168.100.76' # IV2 Camera
+              external: '10.4.42.122'
+            -
+              internal: '192.168.100.77' # IV2 Camera
+              external: '10.4.42.123'
+
+        10.4.42.107:  # AB1V 1702 775
+          wanIP: '10.4.42.107'
+          lanIP: '192.168.100.254'
+          iplist:
+            -
+              internal: '192.168.100.80' # Main PLC
+              external: '10.4.42.124'
+            -
+              internal: '192.168.1.82' # Fanuc Robot
+              external: '10.4.42.125'
+            -
+              internal: '192.168.1.85' # IV2 Camera
+              external: '10.4.42.126'
+
+        10.4.42.118:  # AB1V
+          wanIP: '10.4.42.118'
+          lanIP: '192.168.100.254'
+          iplist:
+            -
+              internal: '192.168.100.40' # Main PLC
+              external: '10.4.42.127'
+            -
+              internal: '192.168.1.42' # Fanuc Robot
+              external: '10.4.42.128'
+
+        10.4.42.119:  # AB1V
+          wanIP: '10.4.42.119'
+          lanIP: '192.168.100.254'
+          iplist:
+            -
+              internal: '192.168.1.11' # Main OP30 PLC
+              external: '10.4.42.129'
+            -
+              internal: '192.168.1.12' # HMI
+              external: '10.4.42.130'
+            -
+              internal: '192.168.100.13' # Fanuc Robot
+              external: '10.4.42.131'
+            -
+              internal: '192.168.1.21' # 2nd OP30 PLC
+              external: '10.4.42.132'
+            -
+              internal: '192.168.22.' # HMI
+              external: '10.4.42.133'
+            -
+              internal: '192.168.1.23' # Fanuc Robot
+              external: '10.4.42.134'
 
 
       vars:
