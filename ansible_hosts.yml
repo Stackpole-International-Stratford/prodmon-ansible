@@ -17,6 +17,7 @@ all:
             - 
               internal: '192.168.1.1'
               external: '10.4.42.215'
+
     Ansible:
       hosts:
         10.4.42.250:
@@ -25,10 +26,8 @@ all:
           ansible_ssh_user: root
           ansible_ssh_pass: fa
 
-
     AB1V:
       hosts:
-
         10.4.42.101:  # AB1V Rx OD Bal Slurry 1712 1713 1716
           wanIP: '10.4.42.101'
           lanIP: '192.168.100.254'
@@ -102,7 +101,7 @@ all:
               internal: '192.168.100.20' # Main PLC
               external: '10.4.42.220'
             -
-              internal: '192.168.100.20' # Fanuc Robot
+              internal: '192.168.100.22' # Fanuc Robot
               external: '10.4.42.230'
 
         10.4.42.100:  # AB1V Rx OP50 659 626
