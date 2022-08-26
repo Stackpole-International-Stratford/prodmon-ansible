@@ -75,8 +75,8 @@ all:
               internal: '192.168.100.165' # 1717 Slurry Debur
               external: '10.4.42.240'
 
-        10.4.42.102:  # AB1V Rx Busing press 1727
-          wanIP: '10.4.42.102'
+        10.4.42.116:  # AB1V Rx Busing press 1727
+          wanIP: '10.4.42.116'
           lanIP: '192.168.1.254'
           iplist:
             -
@@ -150,7 +150,7 @@ all:
           iplist:
             -
               internal: '192.168.1.10' # Main PLC
-              external: '10.4.42.127'
+              external: '10.4.42.139'
 
         10.4.42.117:  # AB1V 629 621
           wanIP: '10.4.42.117'
@@ -158,16 +158,16 @@ all:
           iplist:
             -
               internal: '192.168.1.31' # Main PLC
-              external: '10.4.42.127'
+              external: '10.4.42.138'
             -
               internal: '192.168.1.41' # Elevator PLC
-              external: '10.4.42.127'
+              external: '10.4.42.129'
             -
               internal: '192.168.1.33' # Fanuc Robot
-              external: '10.4.42.127'
+              external: '10.4.42.130'
             -
               internal: '192.168.1.32' # Panelview
-              external: '10.4.42.127'
+              external: '10.4.42.131'
 
         10.4.42.108:  # AB1V In Bushing Press 1726
           wanIP: '10.4.42.108'
@@ -217,22 +217,22 @@ all:
           iplist:
             -
               internal: '192.168.1.11' # Main OP30 PLC
-              external: '10.4.42.129'
-            -
-              internal: '192.168.1.12' # HMI
-              external: '10.4.42.130'
-            -
-              internal: '192.168.100.13' # Fanuc Robot
-              external: '10.4.42.131'
-            -
-              internal: '192.168.1.21' # 2nd OP30 PLC
               external: '10.4.42.132'
             -
-              internal: '192.168.22.' # HMI
+              internal: '192.168.1.12' # HMI
               external: '10.4.42.133'
             -
-              internal: '192.168.1.23' # Fanuc Robot
+              internal: '192.168.100.13' # Fanuc Robot
               external: '10.4.42.134'
+            -
+              internal: '192.168.1.21' # 2nd OP30 PLC
+              external: '10.4.42.135'
+            -
+              internal: '192.168.1.22' # HMI
+              external: '10.4.42.136'
+            -
+              internal: '192.168.1.23' # Fanuc Robot
+              external: '10.4.42.137'
 
 
       vars:
