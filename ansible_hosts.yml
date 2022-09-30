@@ -3,32 +3,58 @@ all:
     new:
       hosts:
         192.168.1.21:
+          wanIP: '10.4.42.250'
+          lanIP: '192.168.1.250'
           ansible_ssh_user: root
           ansible_ssh_pass: fa
    
-    test:
-     hosts:        
-       10.4.42.186:
-          wanIP: '10.4.42.186'
-          lanIP: '192.168.1.254'
-          ansible_ssh_user: root
-          ansible_ssh_pass: fa
-          iplist:
-            - 
-              internal: '192.168.1.1'
-              external: '10.4.42.215'
-
     Ansible:
       hosts:
         10.4.42.250:
           wanIP: '10.4.42.250'
-          lanIP: '192.268.1.250'
+          lanIP: '192.168.1.250'
           ansible_ssh_user: root
           ansible_ssh_pass: fa
 
+    New10R:
+      hosts:
+        BE_balancer:  # Balance Engineering uplift balancer
+          ansible_host: '10.4.42.66' 
+          wanIP: '10.4.42.66'
+          lanIP: '192.168.1.254'
+          iplist:
+            -
+              internal: '192.168.1.110' # Main PLC
+              external: '10.4.42.69'
+
+        Slurry:  # Slurry 1549
+          ansible_host: '10.4.42.68'
+          wanIP: '10.4.42.68'
+          lanIP: '192.168.183.254'
+          iplist:
+            -
+              internal: '192.168.183.233' # Main PLC
+              external: '10.4.42.71'
+
+        Bush_Press:  # Bushing Press 1552
+          ansible_host: '10.4.42.67'
+          wanIP: '10.4.42.67'
+          lanIP: '192.168.1.254'
+          iplist:
+            -
+              internal: '192.168.1.10' # Main PLC
+              external: '10.4.42.70'
+
+
+      vars:
+        ansible_ssh_user: root
+        ansible_ssh_pass: fa
+
+
     AB1V:
       hosts:
-        10.4.42.101:  # AB1V Rx OD Bal Slurry 1712 1713 1716
+        AB1V_Rx_Bal_Slurry:  # AB1V Rx OD Bal Slurry 1712 1713 1716
+          ansible_host: '10.4.42.101' 
           wanIP: '10.4.42.101'
           lanIP: '192.168.100.254'
           iplist:
@@ -74,13 +100,21 @@ all:
               internal: '192.168.100.165' # 1717 Slurry Debur
               external: '10.4.42.240'
 
-        10.4.42.116:  # AB1V Rx Busing press 1727
-          wanIP: '10.4.42.116'
+        10.4.42.102:  # 10R140 1711
+          wanIP: '10.4.42.102'
           lanIP: '192.168.1.254'
           iplist:
             -
-              internal: '192.168.1.10' # Main PLC
-              external: '10.4.42.219'
+              internal: '192.168.1.11' # Main PLC
+              external: '10.4.42.57'
+            -
+              internal: '192.168.1.12' # Fanuc Robot
+              external: '10.4.42.58'
+            -
+              internal: '192.168.1.13' # HMI
+              external: '10.4.42.59'
+
+
 
         10.4.42.115:  # AB1V 10R140 Wash Load 1723
           wanIP: '10.4.42.115'
@@ -151,8 +185,18 @@ all:
               internal: '192.168.1.10' # Main PLC
               external: '10.4.42.139'
 
-        10.4.42.117:  # AB1V 629 621
-          wanIP: '10.4.42.117'
+        10.4.42.110:  # AB1V In Bushing Press 1727
+          wanIP: '10.4.42.110'
+          lanIP: '192.168.1.254'
+          iplist:
+            -
+              internal: '192.168.1.10' # Main PLC
+              external: '10.4.42.219'
+
+
+
+        10.4.42.64:  # AB1V 629 621
+          wanIP: '10.4.42.64'
           lanIP: '192.168.1.254'
           iplist:
             -
@@ -187,16 +231,16 @@ all:
 
         10.4.42.107:  # AB1V 1702 775
           wanIP: '10.4.42.107'
-          lanIP: '192.168.100.251'
+          lanIP: '192.168.100.252'
           iplist:
             -
               internal: '192.168.100.80' # Main PLC
-              external: '10.4.42.144'
+              external: '10.4.42.243'
             -
-              internal: '192.168.1.82' # Fanuc Robot
+              internal: '192.168.100.82' # Fanuc Robot
               external: '10.4.42.145'
             -
-              internal: '192.168.1.85' # IV2 Camera
+              internal: '192.168.100.85' # IV2 Camera
               external: '10.4.42.146'
 
         10.4.42.118:  # 10R140 Bushing bore 677 748
@@ -210,7 +254,7 @@ all:
               internal: '192.168.1.42' # Fanuc Robot
               external: '10.4.42.128'
 
-        10.4.42.119:  # AB1V
+        10.4.42.119:  # AB1V OD OP30
           wanIP: '10.4.42.119'
           lanIP: '192.168.1.254'
           iplist:
@@ -221,7 +265,7 @@ all:
               internal: '192.168.1.12' # HMI
               external: '10.4.42.133'
             -
-              internal: '192.168.100.13' # Fanuc Robot
+              internal: '192.168.1.13' # Fanuc Robot
               external: '10.4.42.134'
             -
               internal: '192.168.1.21' # 2nd OP30 PLC
@@ -233,6 +277,19 @@ all:
               internal: '192.168.1.23' # Fanuc Robot
               external: '10.4.42.137'
 
+        10.4.42.104:  # AB1V OD OP25
+          wanIP: '10.4.42.104'
+          lanIP: '192.168.1.253'
+          iplist:
+            -
+              internal: '192.168.1.1' # Main OP30 PLC
+              external: '10.4.42.244'
+            -
+              internal: '192.168.1.2' # Fanuc Robot
+              external: '10.4.42.245'
+            -
+              internal: '192.168.1.3' # HMI
+              external: '10.4.42.246'
 
       vars:
         ansible_ssh_user: root
