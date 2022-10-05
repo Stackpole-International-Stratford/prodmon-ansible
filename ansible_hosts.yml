@@ -45,6 +45,14 @@ all:
               internal: '192.168.1.10' # Main PLC
               external: '10.4.42.70'
 
+        OP30_Doosan:  # OP30 Dosan 1546 
+          ansible_host: '10.4.42.63'
+          wanIP: '10.4.42.63'
+          lanIP: '192.168.1.254'
+          iplist:
+            -
+              internal: '192.168.1.1' # Oi Fanuc Control
+              external: '10.4.42.73'
 
       vars:
         ansible_ssh_user: root
