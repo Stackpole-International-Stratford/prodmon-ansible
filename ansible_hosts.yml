@@ -16,6 +16,21 @@ all:
           ansible_ssh_user: root
           ansible_ssh_pass: fa
 
+    ZF:
+      hosts:
+        Gauge_797:  # Balance Engineering uplift balancer
+          ansible_host: '10.4.42.65' 
+          wanIP: '10.4.42.65'
+          lanIP: '192.168.1.254'
+          iplist:
+            -
+              internal: '192.168.1.1' # Main PLC
+              external: '10.4.42.74'
+
+      vars:
+        ansible_ssh_user: root
+        ansible_ssh_pass: fa
+
     New10R:
       hosts:
         BE_balancer:  # Balance Engineering uplift balancer
