@@ -1,4 +1,4 @@
-all:
+5all:
   children:
 
     testing2:
@@ -19,11 +19,6 @@ all:
 
     testing1:
       hosts:
-        10.4.43.60:  # docker test
-          wanIP: '10.4.43.60'
-          lanIP: '192.168.1.254'
-   
-
         10.4.42.8:  # 1540 Fuji CNC
           wanIP: '10.4.42.8'
           lanIP: '192.168.1.254'
@@ -34,9 +29,7 @@ all:
       vars:
           ansible_ssh_user: root
           ansible_ssh_pass: fa
-
-
-
+   
     Ansible:
       hosts:
         10.4.42.250:
@@ -79,14 +72,6 @@ all:
     MainLine10R80:
       hosts:
 
-        10.4.42.181:  # Bushing Press 1513
-          wanIP: '10.4.42.181'
-          lanIP: '192.168.1.251'
-          iplist:
-            -
-              internal: '192.168.1.1' # Main PLC tending 1528
-              external: '10.4.43.200'
-
         10.4.43.55:  # OP110 1528
           wanIP: '10.4.43.55'
           lanIP: '192.168.1.251'
@@ -117,7 +102,7 @@ all:
               internal: '192.168.1.58' # OP120 De-elevator
               external: '10.4.43.115'
 
-        10.4.42.182:  # 1503 Bushing Bore
+        10.4.42.182:  # 1503 Bushing Press
           wanIP: '10.4.42.182'
           lanIP: '192.168.1.254'
           iplist:
@@ -197,7 +182,7 @@ all:
               internal: '192.168.1.60'
               external: '10.4.43.109'
 
-        10.4.42.170:  # OP40 CELL2 1501
+        10.4.42.170:  # OP40 CELL2 1509
           wanIP: '10.4.42.170'
           lanIP: '192.168.1.254'
           iplist:
@@ -211,25 +196,6 @@ all:
 
     Uplift10R80:
       hosts:
-
-        10.4.43.63:  # 10R80 Uplift Offline OP30 1826
-          ansible_host: '10.4.43.63' 
-          wanIP: '10.4.43.63'
-          lanIP: '192.168.1.254'
-          iplist:
-            - 
-              internal: '192.168.1.10' # OP30 Robodrill 1826
-              external: '10.4.42.84'
-              
-        10.4.43.62:  # 10R80 Uplift Offline OP30 1555
-          ansible_host: '10.4.43.62' 
-          wanIP: '10.4.43.62'
-          lanIP: '192.168.1.254'
-          iplist:
-            - 
-              internal: '192.168.1.1' # OP30 Tongtai 1555
-              external: '10.4.42.77'
-              
         BE_balancer:  # 10R80 Uplift OP30/40/50/60
           ansible_host: '10.4.42.66' 
           wanIP: '10.4.42.66'
@@ -275,6 +241,7 @@ all:
 
 
 
+
     AB1V:
       hosts:
         AB1V_Input_10-20:  # AB1V Input Op 10/20 1740 Fuji
@@ -285,42 +252,6 @@ all:
             -
               internal: '192.168.1.2' # Fanuc Control
               external: '10.4.42.73'
-
-        AB1V_OD_10-20_1705:  # AB1V OD Op 10/20 1705 Fuji
-          ansible_host: '10.4.43.58'
-          wanIP: '10.4.43.58'
-          lanIP: '192.168.1.254'
-          iplist:
-            -
-              internal: '192.168.1.2' # Fanuc Control
-              external: '10.4.42.88'
-
-        AB1V_OD_10-20:  # AB1V OD Op 10/20 1746 Fuji
-          ansible_host: '10.4.43.57'
-          wanIP: '10.4.43.57'
-          lanIP: '192.168.1.254'
-          iplist:
-            -
-              internal: '192.168.1.2' # Fanuc Control
-              external: '10.4.42.89'
-
-        AB1V_Input_OP40:  # AB1V Input Op 40 1701 Fuji
-          ansible_host: '10.4.43.56'
-          wanIP: '10.4.43.56'
-          lanIP: '192.168.1.254'
-          iplist:
-            -
-              internal: '192.168.1.2' # Fanuc Control
-              external: '10.4.42.87'
-
-        10.4.43.65:  # 10R140 Op 10 1708 Fuji
-          ansible_host: '10.4.43.65'
-          wanIP: '10.4.43.65'
-          lanIP: '192.168.1.254'
-          iplist:
-            -
-              internal: '192.168.1.2' # Fanuc Control
-              external: '10.4.42.61'
 
 
         AB1V_Rx_Bal_Slurry:  # AB1V Rx OD Bal Slurry 1712 1713 1716
@@ -455,8 +386,8 @@ all:
               internal: '192.168.1.10' # Main PLC
               external: '10.4.42.139'
 
-        10.4.43.61:  # AB1V In Bushing Press 1727
-          wanIP: '10.4.43.61'
+        10.4.42.110:  # AB1V In Bushing Press 1727
+          wanIP: '10.4.42.110'
           lanIP: '192.168.1.254'
           iplist:
             -
@@ -574,16 +505,19 @@ all:
 
     TenR60:
       hosts:
-         10.4.42.156:  # 10R60 Autogauge 1816
+#        10.4.42.166: 
+#          wanIP: '10.4.42.166'
+#          lanIP: '192.168.1.254'
+#          ansible_ssh_user: 'debian'
+#          ansible_ssh_pass: 'temppwd'
+         10.4.42.156:
            wanIP: '10.4.42.156'
            lanIP: '192.168.1.254'
            iplist:
             -
-              internal: '192.168.1.2' # Main PLC
+              internal: '192.168.1.2' # Main OP30 PLC
               external: '10.4.42.99'
-            -
-              internal: '192.168.1.10' # Laser Marker PLC 1811
-              external: '10.4.42.98'
+
 
       vars:
         ansible_ssh_user: root

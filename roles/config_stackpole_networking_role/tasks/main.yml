@@ -1,45 +1,25 @@
 ---
-- name: Maintain all edge devices
-  hosts: all
-  remote_user: root
+# tasks file for config_stackpole_networking_role
 
 ###############################################################################################
 #
 # Configure DNS so apt can grab files
 #
-##############################################################################################
+###############################################################################################
 
-  tasks:
-
-#    - name: Include the example role and run its tasks
-#      include_role:
-#        name: config_stackpole_networking_role
-
-  - name: update dns settings
+  - name: Update dns settings to use Stackpole's in house DNS
     ansible.builtin.lineinfile:
       path: /etc/systemd/resolved.conf
       search_string: "#DNS="
       line: "DNS=10.4.1.200 10.5.1.200"
     register: dns_updated
 
-  - name: restart resolved
+  - name: restart resolved # this needs to be here so it is completed before any apt commands run
     ansible.builtin.systemd:
       name: systemd-resolved.service
       state: restarted
       daemon_reload: true
     when: dns_updated.changed
-
-###############################################################################################
-#
-# Set the host name from the inventory
-#
-##############################################################################################
-
-# moved to config_stackpole_networking_role
-  # - name: update host name
-  #   ansible.builtin.shell: "hostnamectl set-hostname {{inventory_hostname}}"
-      
-
 
 ###############################################################################################
 #
@@ -70,14 +50,20 @@
        - nano
        - ufw
        - iptables-persistent
-       - python3
-       - python3-pip
-       - build-essential
-       - libsystemd-dev
        - ntp
        - ntpdate
       update_cache: yes
 
+
+
+###############################################################################################
+#
+# Set the host name from the inventory
+#
+##############################################################################################
+
+  - name: update host name
+    ansible.builtin.shell: "hostnamectl set-hostname {{inventory_hostname}}"
 
 ###############################################################################################
 #
@@ -90,30 +76,10 @@
       src: ./eth0.j2
       dest: /etc/network/interfaces.d/eth0
 
-
   - name: Configure LAN port
     ansible.builtin.template:
       src: ./eth1.j2
       dest: /etc/network/interfaces.d/eth1
-
-
-###############################################################################################
-#
-#  Clone git repos as required
-#
-###############################################################################################
-
-#  - name: clone laser_db from github
-#    ansible.builtin.git:
-#      repo: https://github.com/Stackpole-International-Stratford/laser_db.git
-#      dest: /srv/laser_db
-#    when: laser_db is defined
-#
-#  - name: Install specified python requirements
-#    ansible.builtin.pip:
-#      requirements: /srv/laser_db/requirements.txt
-#    when: laser_db is defined
-
 
 
 ###############################################################################################
@@ -126,6 +92,7 @@
     ansible.builtin.iptables:
       table: nat
       flush: yes
+
 
   - name: enable IP Forwarding in the kernel if needed
     ansible.posix.sysctl:
@@ -166,56 +133,18 @@
 #
 #################################################################################################
 
-  - name: remove old ntp  
-    ansible.builtin.apt:
-      name: ntp
-      state: absent
-
   - name: add ntp server to config
-    ansible.builtin.shell:
-      cmd: sed -i '/#NTP=/c\NTP=10.4.1.200' /etc/systemd/timesyncd.conf
+    ansible.builtin.copy:
+      src: ubuntu-ntpd.conf
+      dest: /etc/ntp.conf
 
   - name: ensure systemd-timesyncd is enabled and started
-    ansible.builtin.systemd:
-      name: systemd-timesyncd
+    ansible.builtin.service:
+      name: ntpd
       state: started
       enabled: yes
-      daemon_reload: yes
 
   - name: set timezone to America/Toronto
     timezone:
       name: America/Toronto
 
-
-
-#################################################################################################
-#
-#  Reboot the unit every sunday morning at 4am
-#
-#################################################################################################
-
-  - name: Reboot Sundays at 4AM
-    ansible.builtin.cron:
-      name: "system reboot"
-      minute: "0"
-      hour: "4"
-      weekday: 0
-      job: "sudo reboot now"
-
-
-#################################################################################################
-#
-#  handlers
-#
-#################################################################################################
-
-  handlers:
-
-    - name: saveiptables
-      shell: iptables-save > /etc/iptables/rules.v4
-
-# this must run last: a new setup changes the ip address of the wan interface
-    - name: Restart networking
-      ansible.builtin.service:
-        name: networking
-        state: restarted

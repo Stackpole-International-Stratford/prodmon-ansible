@@ -1,0 +1,16 @@
+auto eth0
+iface eth0 inet static
+  address {{ wanIP }}
+  netmask 255.255.192.0
+  gateway 10.4.1.9
+
+{% if iplist is defined %}
+  {% for item in iplist %}
+
+auto eth0:{{ loop.index0 }}
+iface eth0:{{ loop.index0 }} inet static
+  address {{item.external }}
+  netmask 255.255.192.0
+
+  {% endfor %}
+{% endif %}
