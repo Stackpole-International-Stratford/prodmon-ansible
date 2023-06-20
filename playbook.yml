@@ -57,7 +57,7 @@
   - name: Update repositories cache and perform a safe upgrade
     apt:
       update_cache: yes
-#     upgrade: safe
+      upgrade: safe
 
   - name: Clean up apt
     apt:

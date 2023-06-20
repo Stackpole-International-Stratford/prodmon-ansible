@@ -45,6 +45,31 @@ all:
           ansible_ssh_user: root
           ansible_ssh_pass: fa
 
+    Compacting:
+      hosts:
+        10.4.43.66:
+          wanIP: '10.4.43.66'
+          lanIP: '192.168.10.250'
+          iplist:
+            -
+              internal: '192.168.10.10' # Main PLC
+              external: '10.4.42.238'
+
+        10.4.43.100:
+          wanIP: '10.4.43.100'
+          lanIP: '192.168.10.254'
+          iplist:
+            -
+              internal: '192.168.10.10' # Main PLC
+              external: '10.4.43.64'
+
+
+
+
+      vars:
+        ansible_ssh_user: root
+        ansible_ssh_pass: fa
+
     ZF:
       hosts:
         Uplift_Balancer:  # Balance Engineering uplift balancer
@@ -354,21 +379,22 @@ all:
             -
               internal: '192.168.100.60' # Main PLC
               external: '10.4.42.237'
-            -
-              internal: '192.168.100.164' # 1715 Balancer
-              external: '10.4.42.238'
-            -
-              internal: '192.168.100.163' # 1714 Balancer
-              external: '10.4.42.239'
-            -
-              internal: '192.168.100.62' # Robot 1715R
-              external: '10.4.42.235'
-            -
-              internal: '192.168.100.63' # Od Robot 1717R
-              external: '10.4.42.236'
-            -
-              internal: '192.168.100.165' # 1717 Slurry Debur
-              external: '10.4.42.240'
+
+# conflict with 744            -
+#              internal: '192.168.100.164' # 1715 Balancer
+#              external: '10.4.42.238'
+#            -
+#              internal: '192.168.100.163' # 1714 Balancer
+#              external: '10.4.42.239'
+#            -
+#              internal: '192.168.100.62' # Robot 1715R
+#              external: '10.4.42.235'
+#            -
+#              internal: '192.168.100.63' # Od Robot 1717R
+#              external: '10.4.42.236'
+#            -
+#              internal: '192.168.100.165' # 1717 Slurry Debur
+#              external: '10.4.42.240'
 
         10.4.42.102:  # 10R140 1711
           wanIP: '10.4.42.102'
@@ -505,7 +531,7 @@ all:
           iplist:
             -
               internal: '192.168.100.80' # Main PLC
-              external: '10.4.42.243'
+              external: '10.4.42.235'
             -
               internal: '192.168.100.82' # Fanuc Robot
               external: '10.4.42.145'
@@ -553,13 +579,13 @@ all:
           iplist:
             -
               internal: '192.168.1.1' # Main OP30 PLC
-              external: '10.4.42.244'
-            -
-              internal: '192.168.1.2' # Fanuc Robot
-              external: '10.4.42.245'
-            -
-              internal: '192.168.1.3' # HMI
-              external: '10.4.42.246'
+              external: '10.4.42.236'
+#            -
+#              internal: '192.168.1.2' # Fanuc Robot
+#              external: '10.4.42.245'
+#            -
+#              internal: '192.168.1.3' # HMI
+#              external: '10.4.42.246'
 
       vars:
         ansible_ssh_user: root
