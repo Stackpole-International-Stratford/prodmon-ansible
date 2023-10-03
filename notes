@@ -1,10 +1,10 @@
 Usage:
   run '. setup' in this directory to setup envroment variables and print usage info
 
-To update a new chip .20 unit at my desk:
+*** need to update:  To update a new chip .20 unit at my desk:
  ansible-playbook playbook.yml -l new
 
-To run plant wide:
+*** need to update: To run plant wide:
  ansible-playbook playbook.yml -l \!new,\!test
 
 Turn off host checking (for the session)
