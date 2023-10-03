@@ -1,0 +1,21 @@
+ungrouped:
+  hosts:
+ansiblemasters:
+  hosts:
+    production:
+      wanIP: '10.4.42.250'
+      lanIP: '192.168.1.250'
+
+      ansible: true
+
+      ansible_ssh_user: root
+      ansible_ssh_pass: fa
+
+    testing:
+      wanIP: '10.4.42.250'
+      lanIP: '192.168.1.250'
+
+      ansible: true
+
+      ansible_ssh_user: root
+      ansible_ssh_pass: fa
