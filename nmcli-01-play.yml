@@ -1,0 +1,167 @@
+---
+- name: playbook for starting and enabling the NetworkManager
+  hosts: displays
+  tasks:
+  - name: start the service
+    service:
+      name: NetworkManager
+      state: started
+      enabled: true
+
+  - name: Clean up connection list
+    community.general.nmcli:
+      conn_name: '{{ item.conn_name }}'
+      state: absent
+    with_items:
+      - conn_name: Wired connection 1
+      - conn_name: Wired connection 2
+
+
+### Switch Netmanager to use resolv.conf for DNS 
+
+  - name: make sure line 'dns=none' is set in /etc/NetworkManager/NetworkManager.conf
+    ini_file:
+      path: /etc/NetworkManager/NetworkManager.conf
+      state: present
+      no_extra_spaces: yes
+      section: main
+      option: dns
+      value: none
+      owner: root
+      group: root
+      mode: 0644
+      backup: yes
+    register: netmananger_updated
+
+  - name: restart Netmanager
+    ansible.builtin.systemd:
+      name: netmanager.service
+      state: restarted
+      daemon_reload: true
+    when: netmananger_updated.changed
+
+
+### Set DNS using resolv.conf
+
+  - name: update dns settings
+    ansible.builtin.lineinfile:
+      path: /etc/systemd/resolved.conf
+      search_string: "#DNS="
+      line: "DNS="
+    register: dns_updated
+
+  - name: update dns settings
+    ansible.builtin.lineinfile:
+      path: /etc/systemd/resolved.conf
+      search_string: "DNS="
+      line: "DNS=10.4.1.200 10.5.1.200"
+    register: dns_updated
+
+  - name: restart resolved
+    ansible.builtin.systemd:
+      name: systemd-resolved.service
+      state: restarted
+      daemon_reload: true
+    when: dns_updated.changed
+
+### Configure Wan an Plc networks
+
+  - name: Add WAN connection with static IP configuration
+    community.general.nmcli:
+      conn_name: wan
+      ifname: eth0
+      type: ethernet
+      ip4: 10.4.45.202/18
+      gw4: 10.4.1.9
+      state: present
+
+  - name: Add an Ethernet connection with static IP configuration
+    community.general.nmcli:
+      conn_name: plc
+      ifname: eth1
+      type: ethernet
+      ip4: 192.168.10.249/24
+      state: present
+
+### update system and install packages
+  # use regex and replace to cover all apt based systems
+  - name: Set sources to use ports.ubuntu.com
+    ansible.builtin.replace:
+      path: /etc/apt/sources.list2
+      regexp: 'http:\/\/(.*\/)'
+      replace: 'http://ports.ubuntu.com'
+
+  - name: Update repositories cache and perform a safe upgrade
+    apt:
+      update_cache: yes
+      cache_valid_time: 600
+      upgrade: safe
+
+  - name: Clean up apt
+    apt:
+      autoclean: yes
+      autoremove: yes
+
+  - name: Install packages
+    apt:
+      pkg:
+       - nano
+       - ufw
+       - iptables-persistent
+       - python3
+       - python3-pip
+       - build-essential
+       - libsystemd-dev
+       - ntp
+       - ntpdate
+       - xdotool     #kiosk mode 
+       - unclutter   #kiosk mode
+       - sed 
+      cache_valid_time: 600
+      update_cache: yes
+
+
+### Set autologin for pi user
+  # see: https://forums.debian.net/viewtopic.php?p=734996&sid=a79e31a10a7cab8ba1af7083985fb969#p734996
+
+  - name: Add user option to Autologin Config
+    ini_file:
+      path: /etc/sddm.conf.d/autologin.conf
+      state: present
+      no_extra_spaces: yes
+      section: Autologin
+      option: User
+      value: pi
+      owner: root
+      group: root
+      mode: 0755
+      backup: yes
+
+  - name: Add Session option to Autologin Config
+    ini_file:
+      path: /etc/sddm.conf.d/autologin.conf
+      state: present
+      no_extra_spaces: yes
+      section: Autologin
+      option: Session
+      value: lxqt.desktop
+      owner: root
+      group: root
+      mode: 0755
+      backup: no
+
+### Startup Scripts
+
+
+
+
+
+### set script to run on login
+# http://pclosmag.com/html/Issues/201009/page10.html
+
+
+### Todo:
+# screen saver
+# load multiple pages
+# remove mouse cursor
+# toggle tabs

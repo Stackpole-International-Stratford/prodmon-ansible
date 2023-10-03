@@ -13,17 +13,22 @@ all:
               external: '10.4.43.101'
 
       vars:
+          ansible_ssh_user: pi
+          ansible_ssh_pass: pi
+
+
+    displays:
+      hosts:
+        10.4.45.202:  # unit on my desk
+          wanIP: '10.4.43.60'
+          lanIP: '192.168.1.254'
+
+      vars:
           ansible_ssh_user: root
           ansible_ssh_pass: fa
 
-
     testing1:
       hosts:
-        10.4.43.60:  # docker test
-          wanIP: '10.4.43.60'
-          lanIP: '192.168.1.254'
-   
-
         10.4.42.8:  # 1540 Fuji CNC
           wanIP: '10.4.42.8'
           lanIP: '192.168.1.254'
@@ -47,21 +52,45 @@ all:
 
     Compacting:
       hosts:
-        10.4.43.66:
+        10.4.43.66: # 242 Press
           wanIP: '10.4.43.66'
           lanIP: '192.168.10.250'
           iplist:
             -
               internal: '192.168.10.10' # Main PLC
               external: '10.4.42.238'
+            -
+              internal: '192.168.10.20' # IOLink Block 1
+              external: '10.4.44.200'
 
-        10.4.43.100:
+        10.4.45.201: # 242 Press Display
+          wanIP: '10.4.45.201'
+          lanIP: '192.168.10.250'
+          dashboard: true
+          dashURL: http://10.5.1.127/playlists/play/q29-5OmIz?kiosk
+
+          iplist:
+            -
+              internal: '192.168.10.10' # Main PLC
+              external: '10.4.42.238'
+
+
+
+        10.4.45.100:
           wanIP: '10.4.45.100'
           lanIP: '192.168.10.254'
           iplist:
             -
               internal: '192.168.10.10' # Main PLC
               external: '10.4.43.64'
+
+        10.4.45.103: # Trilobe Eddy 992 
+          wanIP: '10.4.45.103'
+          lanIP: '192.168.1.254'
+          iplist:
+            -
+              internal: '192.168.1.1' # Main PLC Eddy load/unload
+              external: '10.4.43.116'
 
 
 
@@ -95,6 +124,15 @@ all:
             -
               internal: '192.168.1.1'
               external: '10.4.42.76'
+            -
+              internal: '192.168.1.24'
+              external: '10.4.42.120'
+            -
+              internal: '192.168.1.26'
+              external: '10.4.42.121'
+            -
+              internal: '192.168.1.28'
+              external: '10.4.42.122'
 
       vars:
         ansible_ssh_user: root
@@ -109,7 +147,7 @@ all:
           lanIP: '192.168.1.251'
           iplist:
             -
-              internal: '192.168.1.1' # Main PLC tending 1528
+              internal: '192.168.1.1' # Main PLC tending 1513
               external: '10.4.43.200'
 
         10.4.43.55:  # OP110 1528
@@ -160,19 +198,19 @@ all:
               external: '10.4.43.101'
 
         10R80Gauge:  # 10R80 auto gauge 1533
-          ansible_host: '10.4.43.51' 
-          wanIP: '10.4.43.51'
+          ansible_host: '10.4.45.101' 
+          wanIP: '10.4.45.101'
           lanIP: '192.168.1.250'
           iplist:
             - 
               internal: '192.168.1.2' # Gauge PLC
               external: '10.4.42.48'
             - 
-              internal: '192.168.1.61' # Laser 1 PLC 1505
-              external: '10.4.42.49'
+              internal: '192.168.1.61' # Laser 1 PLC 1534
+              external: '10.4.43.201'
             - 
-              internal: '192.168.1.67' # Laser 2 PLC 1534
-              external: '10.4.42.50'
+              internal: '192.168.1.67' # Laser 2 PLC 1505
+              external: '10.4.43.202'
             
         10.4.42.176:  # OP70 1514
           wanIP: '10.4.42.176'
@@ -349,25 +387,19 @@ all:
 
 
         AB1V_Rx_Bal_Slurry:  # AB1V Rx OD Bal Slurry 1712 1713 1716
-          ansible_host: '10.4.42.101' 
-          wanIP: '10.4.42.101'
+          ansible_host: '10.4.45.102' 
+          wanIP: '10.4.45.102'
           lanIP: '192.168.100.254'
           iplist:
             -
               internal: '192.168.100.10' # Main PLC
-              external: '10.4.42.217'
+              external: '10.4.44.50'
             -
               internal: '192.168.100.113' # 1713 OD Balancer (for current running part type) 
               external: '10.4.42.222'
             -
               internal: '192.168.100.114' # 1712 Rx Balancer (for current running part type)
               external: '10.4.42.223'
-            -
-              internal: '192.168.100.13' # Rx Robot 1716R
-              external: '10.4.42.232'
-            -
-              internal: '192.168.100.12' # Od Robot 1712R
-              external: '10.4.42.233'
             -
               internal: '192.168.100.115' # 1716 Slurry Debur
               external: '10.4.42.234'

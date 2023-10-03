@@ -1,7 +1,7 @@
 ---
 - name: Maintain all edge devices
   hosts: all
-  remote_user: root
+  become: true
 
 ###############################################################################################
 #
@@ -19,6 +19,13 @@
     ansible.builtin.lineinfile:
       path: /etc/systemd/resolved.conf
       search_string: "#DNS="
+      line: "DNS="
+    register: dns_updated
+
+  - name: update dns settings
+    ansible.builtin.lineinfile:
+      path: /etc/systemd/resolved.conf
+      search_string: "DNS="
       line: "DNS=10.4.1.200 10.5.1.200"
     register: dns_updated
 
