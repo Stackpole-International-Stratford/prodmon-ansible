@@ -1,0 +1,14 @@
+---
+- name: playbook to configure dashboard display 
+  hosts: all
+  become: true
+  tasks:
+
+    - name: Get Desktop
+      shell:
+        cmd: 'FILE=/etc/xdg/lxqt;if [ -e "$FILE" ]; then echo "lxqt";fi;'
+      register: current_desktop
+
+    - name: Debug
+      debug:
+        msg: "Desktop is {{ current_desktop.stdout }}"
