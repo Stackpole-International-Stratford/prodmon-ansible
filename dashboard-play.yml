@@ -1,6 +1,7 @@
 ---
-- name: playbook for starting and enabling the NetworkManager
-  hosts: displays
+- name: playbook to configure dashboard display 
+  hosts: all
+  become: true
   tasks:
   - name: start the service
     service:
@@ -8,13 +9,13 @@
       state: started
       enabled: true
 
-  - name: Clean up connection list
-    community.general.nmcli:
-      conn_name: '{{ item.conn_name }}'
-      state: absent
-    with_items:
-      - conn_name: Wired connection 1
-      - conn_name: Wired connection 2
+  # - name: Clean up connection list
+  #   community.general.nmcli:
+  #     conn_name: '{{ item.conn_name }}'
+  #     state: absent
+  #   with_items:
+  #     - conn_name: Wired connection 1
+  #     - conn_name: Wired connection 2
 
 
 ### Switch Netmanager to use resolv.conf for DNS 
@@ -35,7 +36,7 @@
 
   - name: restart Netmanager
     ansible.builtin.systemd:
-      name: netmanager.service
+      name: NetworkManager.service
       state: restarted
       daemon_reload: true
     when: netmananger_updated.changed
@@ -71,7 +72,7 @@
       conn_name: wan
       ifname: eth0
       type: ethernet
-      ip4: 10.4.45.202/18
+      ip4: "{{wanIP}}/18"
       gw4: 10.4.1.9
       state: present
 
@@ -87,9 +88,10 @@
   # use regex and replace to cover all apt based systems
   - name: Set sources to use ports.ubuntu.com
     ansible.builtin.replace:
-      path: /etc/apt/sources.list2
+      path: /etc/apt/sources.list
       regexp: 'http:\/\/(.*\/)'
       replace: 'http://ports.ubuntu.com'
+      backup: true
 
   - name: Update repositories cache and perform a safe upgrade
     apt:
@@ -134,7 +136,7 @@
       value: pi
       owner: root
       group: root
-      mode: 0755
+      mode: 755
       backup: yes
 
   - name: Add Session option to Autologin Config
@@ -147,20 +149,44 @@
       value: lxqt.desktop
       owner: root
       group: root
-      mode: 0755
+      mode: 755
       backup: no
 
 ### Startup Scripts
 
-
-
-
-
+  - name: write kiosk.sh script
+    ansible.builtin.template:
+      src: ./kiosk.sh.j2
+      dest: /home/pi/kiosk.sh
+      owner: pi
+      group: pi
+      mode: '0755'
+      
 ### set script to run on login
 # http://pclosmag.com/html/Issues/201009/page10.html
+# https://unix.stackexchange.com/questions/449116/why-does-lxqt-autostart-not-do-anything
+
+  - name: Create the ~/.config/autostart directory if it does not exist
+    ansible.builtin.file:
+      path: /home/pi/.config/autostart
+      state: directory
+      owner: pi
+      group: pi
+
+  - name: write dashboard.desktop file to ~/.config/autostart
+    ansible.builtin.copy:
+      src: ./dashboard.desktop
+      dest: /home/pi/.config/autostart/dashboard.desktop
+      owner: pi
+      group: pi
+      mode: '0664'
+
+  - name: Unconditionally reboot the machine with all defaults
+    ansible.builtin.reboot:
 
 
-### Todo:
+
+### Todo:  All managed by kiosk.sh script
 # screen saver
 # load multiple pages
 # remove mouse cursor
