@@ -1,0 +1,46 @@
+ungrouped:
+  hosts:
+
+dashboards:
+  hosts:
+    10R80Laser:  # 
+      ansible_host: '10.4.45.200'
+      wanIP: '10.4.45.200'
+      lanIP: '192.168.1.254'
+      dashURL: 'http://10.4.2.65:3000/d/d327f408-eea3-42d0-b3d9-a38e8676e0f9/1534-1505-1811?orgId=1&refresh=15m&from=now-7d&to=now&kiosk'
+
+    press242:  # Press operator screen
+      ansible_host: '10.4.45.201'
+      wanIP: '10.4.45.201'
+      lanIP: '192.168.1.249'
+      dashURL: 'http://10.5.1.127/playlists/play/fIziesMIk?kiosk'
+
+    Display3:  # 
+      ansible_host: '10.4.45.202'
+      wanIP: '10.4.45.202'
+      lanIP: '192.168.1.254'
+      dashURL: 'http://10.5.1.127/playlists/play/fIziesMIk?kiosk'
+
+    Display4:  # 
+      ansible_host: '10.4.45.203'
+      wanIP: '10.4.45.203'
+      lanIP: '192.168.1.254'
+      dashURL: 'http://10.5.1.127/playlists/play/fIziesMIk?kiosk'
+
+    Display5:  # 
+      ansible_host: '10.4.45.204'
+      wanIP: '10.4.45.204'
+      lanIP: '192.168.1.254'
+      dashURL: 'http://10.5.1.127/playlists/play/fIziesMIk?kiosk'
+
+    Display6:  # 
+      ansible_host: '10.4.45.205'
+      wanIP: '10.4.45.205'
+      lanIP: '192.168.1.254'
+      dashURL: 'http://10.5.1.127/playlists/play/fIziesMIk?kiosk'
+
+  vars:
+      ansible_ssh_user: pi
+      ansible_ssh_pass: pi
+      ansible_become_user: root
+      ansible_become_password: pi

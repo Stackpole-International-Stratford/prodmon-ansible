@@ -1,4 +1,13 @@
 Usage:
+  - dashboards:
+    Change the dashboard url in the inventory/dashboards.yml file
+    update all devices with 'ansible-playbook dashboard-play.yml -i inventory'
+    update one device with 'ansible-playbook dashboard-play.yml -i inventory -l <device name [press242]>'
+
+
+Below needs to be updated
+
+Usage:
   run '. setup' in this directory to setup envroment variables and print usage info
 
 *** need to update:  To update a new chip .20 unit at my desk:
@@ -42,3 +51,7 @@ https://feeding.cloud.geek.nz/posts/time-synchronization-with-ntp-and-systemd/
 ansible setting timezone:
 https://stackoverflow.com/questions/41294214/ansible-timezone-module-fails-different-reasons-on-different-oses#comment69793819_41294214
 
+
+###  Hotplug HDMI cables
+========================
+https://www.ejmastnak.com/tutorials/arch/displays/
