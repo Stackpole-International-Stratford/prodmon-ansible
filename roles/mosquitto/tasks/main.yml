@@ -1,0 +1,48 @@
+- name: Install Mosquitto MQTT Broker
+  ansible.builtin.apt:
+    name: mosquitto
+    state: present
+  notify: Restart mosquitto
+
+- name: Setup Mosquitto service
+  ansible.builtin.service:
+    name: mosquitto
+    state: started
+    enabled: true
+  notify: Restart mosquitto
+
+# # configure MQTT Bridges
+# - name: Locate pre existing bridge configs
+#   ansible.builtin.find:
+#     paths: /etc/mosquitto/conf.d/
+#     patterns: "bridge-*.conf"
+#   register: find_results
+
+# - name: Remove pre existing bridge configs
+#   ansible.builtin.template:
+#     path: "{{ item['path'] }}"
+#     state: absent
+#   with_items: "{{ find_results['files'] }}"
+#   notify: Restart mosquitto
+
+# cofigure MQTT bridge connections
+- name: Add Mosquitto bridge connections
+  ansible.builtin.template:
+    src: bridges.conf.j2
+    dest: "/etc/mosquitto/conf.d/bridges.conf"
+  when: mqtt_bridges is defined
+  notify: Restart mosquitto
+
+# cofigure MQTT listener
+- name: Add Mosquitto listener config
+  ansible.builtin.template:
+    src: listener.conf.j2
+    dest: /etc/mosquitto/conf.d/listener.conf
+  notify: Restart mosquitto
+
+# cofigure MQTT auth settings
+- name: Add Mosquitto auth config
+  ansible.builtin.template:
+    src: auth.conf.j2
+    dest: /etc/mosquitto/auth.conf
+  notify: Restart mosquitto

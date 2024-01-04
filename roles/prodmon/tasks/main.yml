@@ -1,0 +1,64 @@
+---
+- name: Git checkout
+  ansible.builtin.git:
+    repo: 'https://github.com/cstrutton/mqtt-collect.git'
+    dest: /srv/prodmon
+    version: production
+
+- name: Ensure python venv command is installed
+  ansible.builtin.apt:
+    pkg: python3-venv
+    update_cache: yes
+
+- name: Create virtual environment
+  ansible.builtin.shell:
+    cmd: python3 -m venv venv
+    chdir: /srv/prodmon
+
+- name: Install python requirements in virtualenv
+  ansible.builtin.pip:
+    requirements: /srv/prodmon/requirements.txt
+    extra_args: " --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org "
+    virtualenv: /srv/prodmon/venv
+    virtualenv_command: python3.8 -m venv
+
+- name: Verify config directory exists
+  ansible.builtin.file:
+    path: /etc/prodmon
+    state: directory
+
+- name: Copy collect config file to /etc/prodmon/collect.conf
+  ansible.builtin.copy:
+    dest: /etc/prodmon/collect.config
+    src: /srv/prodmon/configs/{{prodmon.collect_config}}
+    remote_src: yes
+
+- name: Copy post config file to /etc/prodmon/post.conf
+  ansible.builtin.copy:
+    dest: /etc/prodmon/post.config
+    src: /srv/prodmon/configs/{{prodmon.post_config}}
+    remote_src: yes
+
+- name: Copy collect service file to systemd service folder
+  ansible.builtin.copy:
+    src: /srv/prodmon/service_files/collect.service
+    dest: /etc/systemd/system
+    remote_src: true
+
+- name: start collect
+  systemd:
+    name: collect.service
+    state: started
+    enabled: yes
+
+- name: Copy post service file to systemd service folder
+  ansible.builtin.copy:
+    src: /srv/prodmon/service_files/post.service
+    dest: /etc/systemd/system
+    remote_src: true
+
+- name: start post
+  systemd:
+    name: post.service
+    state: started
+    enabled: yes

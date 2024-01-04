@@ -1,0 +1,223 @@
+---
+- name: playbook to configure dashboard display 
+  hosts: all
+  become: true
+  tasks:
+
+  - name: start the service
+    service:
+      name: NetworkManager
+      state: started
+      enabled: true
+
+### Switch Netmanager to use resolv.conf for DNS 
+
+  - name: make sure line 'dns=none' is set in /etc/NetworkManager/NetworkManager.conf
+    ini_file:
+      path: /etc/NetworkManager/NetworkManager.conf
+      state: present
+      no_extra_spaces: yes
+      section: main
+      option: dns
+      value: none
+      owner: root
+      group: root
+      mode: 0644
+      backup: yes
+    register: netmananger_updated
+
+  - name: restart Netmanager
+    ansible.builtin.systemd:
+      name: NetworkManager.service
+      state: restarted
+      daemon_reload: true
+    when: netmananger_updated.changed
+
+### Set DNS using resolv.conf
+
+  - name: update dns settings
+    ansible.builtin.lineinfile:
+      path: /etc/systemd/resolved.conf
+      search_string: "#DNS="
+      line: "DNS="
+    register: dns_updated
+
+  - name: update dns settings
+    ansible.builtin.lineinfile:
+      path: /etc/systemd/resolved.conf
+      search_string: "DNS="
+      line: "DNS=10.4.1.200 10.5.1.200"
+    register: dns_updated
+
+  - name: restart resolved
+    ansible.builtin.systemd:
+      name: systemd-resolved.service
+      state: restarted
+      daemon_reload: true
+    when: dns_updated.changed
+
+### Configure Wan an Plc networks
+
+  - name: Add WAN connection with static IP configuration
+    community.general.nmcli:
+      conn_name: wan
+      ifname: eth0
+      type: ethernet
+      ip4: "{{wanIP}}/18"
+      gw4: 10.4.1.9
+      state: present
+
+  - name: Add an Ethernet connection with static IP configuration
+    community.general.nmcli:
+      conn_name: plc
+      ifname: eth1
+      type: ethernet
+      ip4: 192.168.10.249/24
+      state: present
+
+### update system and install packages
+  # use regex and replace to cover all apt based systems
+  - name: Set sources to use ports.ubuntu.com
+    ansible.builtin.replace:
+      path: /etc/apt/sources.list
+      regexp: 'http:\/\/(.*\/)'
+      replace: 'http://ports.ubuntu.com'
+      backup: true
+
+  - name: Update repositories cache and perform a safe upgrade
+    apt:
+      update_cache: yes
+      cache_valid_time: 600
+      upgrade: safe
+
+  - name: Clean up apt
+    apt:
+      autoclean: yes
+      autoremove: yes
+
+  - name: Install packages
+    apt:
+      pkg:
+       - nano
+       - ufw
+       - iptables-persistent
+       - python3
+       - python3-pip
+       - build-essential
+       - libsystemd-dev
+       - ntp
+       - ntpdate
+       - xdotool     #kiosk mode 
+       - unclutter   #kiosk mode
+       - sed 
+      state: present
+      cache_valid_time: 600
+      update_cache: yes
+
+  - name: Install packages
+    apt:
+      pkg:
+       - xscreensaver
+      state: absent
+      cache_valid_time: 600
+      update_cache: yes
+
+#################################################################################################
+#
+# Date time and timezone
+#
+#################################################################################################
+
+  - name: remove old ntp  
+    ansible.builtin.apt:
+      name: ntp
+      state: absent
+
+  - name: add ntp server to config
+    ansible.builtin.shell:
+      cmd: sed -i '/#NTP=/c\NTP=10.4.1.200' /etc/systemd/timesyncd.conf
+
+  - name: ensure systemd-timesyncd is enabled and started
+    ansible.builtin.systemd:
+      name: systemd-timesyncd
+      state: started
+      enabled: yes
+      daemon_reload: yes
+
+  - name: set timezone to America/Toronto
+    timezone:
+      name: America/Toronto
+
+
+
+
+
+
+### Set autologin for pi user
+  # see: https://forums.debian.net/viewtopic.php?p=734996&sid=a79e31a10a7cab8ba1af7083985fb969#p734996
+
+  - name: Add user option to Autologin Config
+    ini_file:
+      path: /etc/sddm.conf.d/autologin.conf
+      state: present
+      no_extra_spaces: yes
+      section: Autologin
+      option: User
+      value: pi
+      owner: root
+      group: root
+      mode: 755
+      backup: yes
+
+  - name: Add Session option to Autologin Config
+    ini_file:
+      path: /etc/sddm.conf.d/autologin.conf
+      state: present
+      no_extra_spaces: yes
+      section: Autologin
+      option: Session
+      value: lxqt.desktop
+      owner: root
+      group: root
+      mode: 755
+      backup: no
+
+### Startup Scripts
+
+  - name: write kiosk.sh script
+    ansible.builtin.template:
+      src: ./kiosk.sh.j2
+      dest: /home/pi/kiosk.sh
+      owner: pi
+      group: pi
+      mode: '0755'
+      
+### set script to run on login
+# http://pclosmag.com/html/Issues/201009/page10.html
+# https://unix.stackexchange.com/questions/449116/why-does-lxqt-autostart-not-do-anything
+
+  - name: Create the ~/.config/autostart directory if it does not exist
+    ansible.builtin.file:
+      path: /home/pi/.config/autostart
+      state: directory
+      owner: pi
+      group: pi
+
+  - name: write dashboard.desktop file to ~/.config/autostart
+    ansible.builtin.copy:
+      src: ./dashboard.desktop
+      dest: /home/pi/.config/autostart/dashboard.desktop
+      owner: pi
+      group: pi
+      mode: '0664'
+
+  - name: Unconditionally reboot the machine with all defaults
+    ansible.builtin.reboot:
+
+
+
+### Todo:  All managed by kiosk.sh script
+# screen saver
+# load multiple pages
+# remove mouse cursor
+# toggle tabs

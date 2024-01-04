@@ -142,33 +142,6 @@ all:
     MainLine10R80:
       hosts:
 
-        10R80Gauge:  # 10R80 auto gauge 1533
-          ansible_host: '10.4.45.101' 
-          wanIP: '10.4.45.101'
-          lanIP: '192.168.1.250'
-          iplist:
-            - 
-              internal: '192.168.1.2' # Gauge PLC
-              external: '10.4.42.48'
-            - 
-              internal: '192.168.1.61' # Laser 1 PLC 1534
-              external: '10.4.43.201'
-            - 
-              internal: '192.168.1.67' # Laser 2 PLC 1505
-              external: '10.4.43.202'
-
-          prodmon:
-            collect_config: '10R80 Autogauge 1533 collect.yml'
-            post_config: 'post.yml'
-
-          dashboard:
-            dash_url: ''
-
-
-
-
-
-
         10.4.42.181:  # Bushing Press 1513
           wanIP: '10.4.42.181'
           lanIP: '192.168.1.251'
@@ -224,6 +197,20 @@ all:
               internal: '192.168.1.110' # PLC tending 1539 1540
               external: '10.4.43.101'
 
+        10R80Gauge:  # 10R80 auto gauge 1533
+          ansible_host: '10.4.45.101' 
+          wanIP: '10.4.45.101'
+          lanIP: '192.168.1.250'
+          iplist:
+            - 
+              internal: '192.168.1.2' # Gauge PLC
+              external: '10.4.42.48'
+            - 
+              internal: '192.168.1.61' # Laser 1 PLC 1534
+              external: '10.4.43.201'
+            - 
+              internal: '192.168.1.67' # Laser 2 PLC 1505
+              external: '10.4.43.202'
             
         10.4.42.176:  # OP70 1514
           wanIP: '10.4.42.176'

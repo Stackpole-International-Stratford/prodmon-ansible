@@ -1,0 +1,75 @@
+ungrouped:
+  hosts:
+
+prodmon:
+  hosts:
+    10R80Gauge:  # 10R80 auto gauge 1533
+      ansible_host: '10.4.45.101'
+      wanIP: '10.4.45.101'
+      lanIP: '192.168.1.250'
+      iplist:
+        -
+          internal: '192.168.1.2' # Main Cell PLC
+          external: '10.4.43.5'
+        -
+          internal: '192.168.1.61' # Laser 1 PLC 1534
+          external: '10.4.43.201'
+        -
+          internal: '192.168.1.67' # Laser 2 PLC 1505
+          external: '10.4.43.202'
+
+      prodmon:
+        collect_config: '10R80 Autogauge 1533 collect.yml'
+        post_config: 'post.yml'
+
+    Press240:
+      ansible_host: '10.4.45.105'
+      wanIP: '10.4.45.105'
+      lanIP: '192.168.10.250'
+      iplist:
+        -
+          internal: '192.168.10.10' # Main PLC
+          external: '10.4.43.64'
+
+      # prodmon:
+      #   collect_config: 'Press 240 collect.yml'
+      #   post_config: 'post.yml'
+
+  vars:
+      ansible_ssh_user: pi
+      ansible_ssh_pass: pi
+      ansible_become_user: root
+      ansible_become_password: pi
+
+
+
+junk:
+  hosts:
+
+    10R80_Autogage:  # 
+      ansible_host: '10.4.45.104'
+      wanIP: '10.4.45.104'
+      lanIP: '192.168.1.251'
+
+      iplist:
+        -
+          internal: '192.168.1.1' # Main PLC
+          external: '10.4.43.5'
+      mosquitto: true
+      mqtt_bridges:
+        - name: mysql
+          address: '10.4.1.234:1883' 
+          client: 'test-05'   
+
+    test104:
+      ansible_host: '10.4.45.104'
+      wanIP: '10.4.45.104'
+      lanIP: '192.168.1.251'
+
+
+  vars:
+      ansible_ssh_user: pi
+      ansible_ssh_pass: pi
+      ansible_become_user: root
+      ansible_become_password: pi
+

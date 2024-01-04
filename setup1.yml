@@ -1,0 +1,304 @@
+---
+- name: Maintain all prodmon devices
+  hosts: all
+#  hosts: mqttclients
+#  hosts: sc_lasers
+
+  become: true
+
+  tasks:
+
+###############################################################################################
+#
+# Add ZScaler certificate 
+#
+##############################################################################################
+
+  - name: Make sure the folder exists (Debian, Ubuntu)
+    file:
+      path: /usr/local/share/ca-certificates
+      state: directory
+
+  - name: Copy the certificate (Debian, Ubuntu)
+    copy:
+      src: zscaler.crt
+      dest: "/usr/local/share/ca-certificates/zscaler.crt"
+    register: result
+
+  - name: Update CA Trust (Debian, Ubuntu)
+    command: update-ca-certificates
+    when: result is changed
+
+
+###############################################################################################
+#
+# Configure DNS so apt can grab files
+#
+##############################################################################################
+
+  - name: update dns settings
+    ansible.builtin.lineinfile:
+      path: /etc/systemd/resolved.conf
+      search_string: "#DNS="
+      line: "DNS="
+    register: dns_updated
+
+  - name: update dns settings
+    ansible.builtin.lineinfile:
+      path: /etc/systemd/resolved.conf
+      search_string: "DNS="
+      line: "DNS=10.4.1.200 10.5.1.200"
+    register: dns_updated
+
+  - name: restart resolved
+    ansible.builtin.systemd:
+      name: systemd-resolved.service
+      state: restarted
+      daemon_reload: true
+    when: dns_updated.changed
+
+###############################################################################################
+#
+# update apt and install basic packages
+#
+##############################################################################################
+
+# Get the time from the ansible master and set it in the 
+  - name: set rough datetime
+    ansible.builtin.command: date "+%Y-%m-%d %H:%M:%S"
+    become: false
+    delegate_to: 127.0.0.1
+    register: results
+  - ansible.builtin.command: timedatectl set-ntp false
+  - ansible.builtin.command: timedatectl set-timezone "America/Toronto"
+  - ansible.builtin.command: timedatectl set-time {{results.stdout | quote}}
+  - ansible.builtin.command: timedatectl set-ntp true
+  
+  - name: update /etc/apt/sources.list
+    ansible.builtin.copy:
+      src: /etc/apt/sources.list.orig
+      dest: /etc/apt/sources.list
+      remote_src: yes
+      backup: yes
+
+  - name: Update repositories cache and perform a safe upgrade
+    apt:
+      update_cache: yes
+      upgrade: safe
+
+  - name: Clean up apt
+    apt:
+      autoclean: yes
+      autoremove: yes
+
+  - name: Install packages
+    apt:
+      pkg:
+       - nano
+       - ufw
+       - iptables-persistent
+       - python3
+       - python3-pip
+       - build-essential
+       - libsystemd-dev
+       - ntp
+       - ntpdate
+      update_cache: yes
+
+###############################################################################################
+#
+# configure mosquitto
+#
+##############################################################################################
+
+  - name: Install and configure the Mosquitto MQTT broker on the edge
+    include_role:
+      name: mosquitto
+    when: mosquitto is defined
+
+
+###############################################################################################
+#
+# configure mosquitto
+#
+##############################################################################################
+
+  - name: Install new Prodmon system
+    include_role:
+      name: prodmon
+    when: prodmon is defined
+
+
+###############################################################################################
+#
+#  Clone git repos as required
+#
+###############################################################################################
+
+  # - name: clone laser_db from github
+  #   ansible.builtin.git:
+  #     repo: https://github.com/Stackpole-International-Stratford/laser_db.git
+  #     dest: /srv/laser_db
+  #   when: laser_db is defined
+
+  # - name: Install specified python requirements
+  #   ansible.builtin.pip:
+  #     requirements: /srv/laser_db/requirements.txt
+  #   when: laser_db is defined
+
+  # - name: clone prodmon-mqtt from github
+  #   ansible.builtin.git:
+  #     repo: https://github.com/Stackpole-International-Stratford/prodmon-mqtt.git
+  #     dest: /srv/prodmon-mqtt
+  #   when: prodmon-mqtt is defined
+
+  # - name: Install specified python requirements
+  #   ansible.builtin.pip:
+  #     requirements: /srv/prodmon-mqtt/requirements.txt
+  #   when: prodmon-mqtt is defined
+ 
+  # - name: Create service file for prodmon-mqtt
+
+
+
+###############################################################################################
+#
+# configure /etc/network/interfaces.d files
+#
+##############################################################################################
+
+  - name: Configure WAN port
+    ansible.builtin.template:
+      src: ./eth0.j2
+      dest: /etc/network/interfaces.d/eth0
+
+
+  - name: Configure LAN port
+    ansible.builtin.template:
+      src: ./eth1.j2
+      dest: /etc/network/interfaces.d/eth1
+
+
+###############################################################################################
+#
+#  Clone git repos as required
+#
+###############################################################################################
+
+#  - name: clone laser_db from github
+#    ansible.builtin.git:
+#      repo: https://github.com/Stackpole-International-Stratford/laser_db.git
+#      dest: /srv/laser_db
+#    when: laser_db is defined
+#
+#  - name: Install specified python requirements
+#    ansible.builtin.pip:
+#      requirements: /srv/laser_db/requirements.txt
+#    when: laser_db is defined
+
+
+
+###############################################################################################
+#
+#  IP tables setup
+#
+###############################################################################################
+
+  - name: "flush all iptables rules"
+    ansible.builtin.iptables:
+      table: nat
+      flush: yes
+
+  - name: enable IP Forwarding in the kernel if needed
+    ansible.posix.sysctl:
+      name: net.ipv4.ip_forward
+      value: 1
+      sysctl_set: yes
+    when: iplist is defined
+
+  - name: build PREROUTING rules from list
+    ansible.builtin.iptables:
+      table: nat
+      chain: PREROUTING
+      destination: "{{ item.external }}"
+      jump: DNAT
+      to_destination: "{{ item.internal }}"
+    with_items: "{{ iplist }}"
+    when: iplist is defined
+    notify:
+      - Restart networking
+      - saveiptables
+
+  - name: build POSTROUTING rules from list
+    ansible.builtin.iptables:
+      table: nat
+      chain: POSTROUTING
+      destination: "{{ item.internal }}"
+      jump: SNAT
+      to_source: "{{ lanIP }}"
+    with_items: "{{ iplist }}"
+    when: iplist is defined
+    notify:
+      - Restart networking
+      - saveiptables
+
+#################################################################################################
+#
+# Date time and timezone
+#
+#################################################################################################
+
+  - name: remove old ntp  
+    ansible.builtin.apt:
+      name: ntp
+      state: absent
+
+  - name: add ntp server to config
+    ansible.builtin.shell:
+      cmd: sed -i '/#NTP=/c\NTP=10.4.1.200' /etc/systemd/timesyncd.conf
+
+  - name: ensure systemd-timesyncd is enabled and started
+    ansible.builtin.systemd:
+      name: systemd-timesyncd
+      state: started
+      enabled: yes
+      daemon_reload: yes
+
+  - name: set timezone to America/Toronto
+    timezone:
+      name: America/Toronto
+
+
+
+#################################################################################################
+#
+#  Reboot the unit every sunday morning at 4am
+#
+#################################################################################################
+
+  - name: Reboot Sundays at 4AM
+    ansible.builtin.cron:
+      name: "system reboot"
+      minute: "0"
+      hour: "4"
+      weekday: 0
+      job: "sudo reboot now"
+
+
+#################################################################################################
+#
+#  handlers
+#
+#################################################################################################
+
+  handlers:
+
+    - name: saveiptables
+      shell: iptables-save > /etc/iptables/rules.v4
+
+
+# this must run last: a new setup changes the ip address of the wan interface
+    - name: Restart networking
+      ansible.builtin.service:
+        name: networking
+        state: restarted

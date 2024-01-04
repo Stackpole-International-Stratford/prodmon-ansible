@@ -1,0 +1,9 @@
+---
+user: "{{ ansible_user_id }}"
+
+service_description: "A service to run the Mosquitto MQTT Broker at the edge"
+
+mqtt_bridges:
+  - name: mysql
+    address: '10.4.1.234:1883'    
+

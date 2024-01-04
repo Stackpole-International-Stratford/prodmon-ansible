@@ -1,0 +1,29 @@
+ungrouped:
+  hosts:
+
+sc_lasers:
+  hosts:
+    test70:
+      ansible_host: '10.4.45.70'
+      wanIP: '10.4.45.70'
+      lanIP: '192.168.1.251'
+
+    test71:
+      ansible_host: '10.4.45.71'
+      wanIP: '10.4.45.71'
+      lanIP: '192.168.1.251'
+
+    test72:
+      ansible_host: '10.4.45.72'
+      wanIP: '10.4.45.72'
+      lanIP: '192.168.1.251'
+
+
+
+
+  vars:
+      ansible_ssh_user: pi
+      ansible_ssh_pass: pi
+      ansible_become_user: root
+      ansible_become_password: pi
+

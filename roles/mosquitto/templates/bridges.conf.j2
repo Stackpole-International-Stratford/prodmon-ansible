@@ -1,0 +1,16 @@
+## managed by Ansible.  
+## see templates/bridge.conf.j2
+## variables : mqtt_bridges
+
+
+{% for bridge in mqtt_bridges %}
+
+connection {{ bridge.name }}
+address {{ bridge.address }}
+
+topic # up 2
+
+remote_clientid {{bridge.client}}
+try_private false
+
+{% endfor %}
