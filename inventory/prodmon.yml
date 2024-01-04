@@ -22,6 +22,21 @@ prodmon:
         collect_config: '10R80 Autogauge 1533 collect.yml'
         post_config: 'post.yml'
 
+
+    10R80_1501:
+      ansible_host: '10.4.45.104'
+      wanIP: '10.4.45.104'
+      lanIP: '192.168.1.244'
+      iplist:
+        -
+          internal: '192.168.1.80'  # material handling plc
+          external: '10.4.42.110'
+      
+      prodmon:
+        collect_config: '10R80 Main OP40 Cell2 1501.yml'
+        post_config: 'post.yml'
+
+
     Press240:
       ansible_host: '10.4.45.105'
       wanIP: '10.4.45.105'

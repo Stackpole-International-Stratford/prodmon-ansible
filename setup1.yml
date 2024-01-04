@@ -63,7 +63,7 @@
 #
 ##############################################################################################
 
-# Get the time from the ansible master and set it in the 
+# Get the time from the ansible master and set it in the router
   - name: set rough datetime
     ansible.builtin.command: date "+%Y-%m-%d %H:%M:%S"
     become: false
@@ -119,7 +119,7 @@
 
 ###############################################################################################
 #
-# configure mosquitto
+# configure prodmon
 #
 ##############################################################################################
 
