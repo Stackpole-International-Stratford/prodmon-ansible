@@ -216,6 +216,7 @@
     ansible.builtin.iptables:
       table: nat
       flush: yes
+    when: iplist is defined
 
   - name: enable IP Forwarding in the kernel if needed
     ansible.posix.sysctl:
