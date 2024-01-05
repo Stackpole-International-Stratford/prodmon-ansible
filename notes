@@ -25,6 +25,7 @@ Add ssh fingerprint to known_hosts:
 
 ###  IPtables stuff
 ==================
+
 ansible iptables module docs
 https://docs.ansible.com/ansible/latest/collections/ansible/builtin/iptables_module.html
 
@@ -43,6 +44,7 @@ https://superuser.com/questions/1719569/how-to-forward-all-ports-on-a-ipaddress-
 
 ###  Timezone and NTP
 =====================
+
 use ansible shell to add ntp server to configs
 
 using systemd to setup builtin ntp
@@ -54,4 +56,20 @@ https://stackoverflow.com/questions/41294214/ansible-timezone-module-fails-diffe
 
 ###  Hotplug HDMI cables
 ========================
+
 https://www.ejmastnak.com/tutorials/arch/displays/
+
+
+### Apt Error - Repo Invalid for x days
+=======================================
+
+
+
+Need to set the devices time close to now before apt will run...
+
+```
+sudo timedatectl set-ntp false
+sudo timedatectl set-timezone "America/Toronto"
+sudo timedatectl set-time "2024-1-5 12:45"  # set to current time/date
+sudo timedatectl set-ntp true
+```
