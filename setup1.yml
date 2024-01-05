@@ -71,28 +71,20 @@
       remote_src: yes
       backup: yes
 
-  - name: Update repositories cache and perform a safe upgrade
-    block:
-      - apt:
-        update_cache: yes
-        upgrade: safe
+    - ansible.builtin.command: 
+      cmd: date "+%Y-%m-%d %H:%M:%S"
+      become: false
+      delegate_to: 127.0.0.1
+      register: results
+    - ansible.builtin.command: timedatectl set-ntp false
+    - ansible.builtin.command: timedatectl set-timezone "America/Toronto"
+    - ansible.builtin.command: timedatectl set-time {{results.stdout | quote}}
+    - ansible.builtin.command: timedatectl set-ntp true
 
-    # If the time is too far out on the target, Apt update fails.  
-    # Get the time from the ansible master and set it on the target so apt update will complete
-    rescue:
-      - ansible.builtin.command: 
-        cmd: date "+%Y-%m-%d %H:%M:%S"
-        become: false
-        delegate_to: 127.0.0.1
-        register: results
-      - ansible.builtin.command: timedatectl set-ntp false
-      - ansible.builtin.command: timedatectl set-timezone "America/Toronto"
-      - ansible.builtin.command: timedatectl set-time {{results.stdout | quote}}
-      - ansible.builtin.command: timedatectl set-ntp true
-      - name: Update repositories cache and perform a safe upgrade
-        apt:
-          update_cache: yes
-          upgrade: safe
+  - name: Update repositories cache and perform a safe upgrade
+    - apt:
+      update_cache: yes
+      upgrade: safe
 
   - name: Clean up apt
     apt:
