@@ -22,6 +22,22 @@ prodmon:
         collect_config: '10R80 Autogauge 1533 collect.yml'
         post_config: 'post.yml'
 
+    10R60Gauge_1816:  # 10R60 auto gauge 1816
+      ansible_host: '10.4.45.107'
+      wanIP: '10.4.45.107'
+      lanIP: '192.168.1.250'
+      iplist:
+        -
+          internal: '192.168.1.2' # Main PLC
+          external: '10.4.43.6'
+        -
+          internal: '192.168.1.10' # Laser Marker PLC 1811
+          external: '10.4.42.98'
+
+      prodmon:
+        collect_config: '10R60 Autogauge 1816 collect.yml'
+        post_config: 'post.yml'
+
 
     10R80_1501:
       ansible_host: '10.4.45.104'
@@ -36,13 +52,14 @@ prodmon:
         collect_config: '10R80 Main OP40 Cell2 1501.yml'
         post_config: 'post.yml'
 
+
     GFxGauge_1617:
-      ansible_host: '10.4.45.104'
-      wanIP: '10.4.45.104'
-      lanIP: '192.168.1.244'
+      ansible_host: '10.4.45.106'
+      wanIP: '10.4.45.106'
+      lanIP: '192.168.1.254'
       iplist:
         -
-          internal: '192.168.1.254'  # main plc
+          internal: '192.168.1.1'  # main plc
           external: '10.4.43.7'
       
       prodmon:
