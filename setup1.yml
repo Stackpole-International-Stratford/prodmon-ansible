@@ -71,18 +71,18 @@
       remote_src: yes
       backup: yes
 
-    - ansible.builtin.command: 
-      cmd: date "+%Y-%m-%d %H:%M:%S"
-      become: false
-      delegate_to: 127.0.0.1
-      register: results
-    - ansible.builtin.command: timedatectl set-ntp false
-    - ansible.builtin.command: timedatectl set-timezone "America/Toronto"
-    - ansible.builtin.command: timedatectl set-time {{results.stdout | quote}}
-    - ansible.builtin.command: timedatectl set-ntp true
+  # - name: fix time
+  #   ansible.builtin.command: date "+%Y-%m-%d %H:%M:%S"
+  #     become: false
+  #     delegate_to: 127.0.0.1
+  #     register: results
+  #   ansible.builtin.command: timedatectl set-ntp false
+  #   ansible.builtin.command: timedatectl set-timezone "America/Toronto"
+  #   ansible.builtin.command: timedatectl set-time {{results.stdout | quote}}
+  #   ansible.builtin.command: timedatectl set-ntp true
 
   - name: Update repositories cache and perform a safe upgrade
-    - apt:
+    apt:
       update_cache: yes
       upgrade: safe
 
