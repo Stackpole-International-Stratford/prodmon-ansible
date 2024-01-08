@@ -38,6 +38,40 @@ prodmon:
         collect_config: '10R60 Autogauge 1816 collect.yml'
         post_config: 'post.yml'
 
+    new108:  # 
+      ansible_host: '10.4.45.108'
+      wanIP: '10.4.45.108'
+      lanIP: '192.168.1.250'
+      iplist:
+        -
+          internal: '192.168.1.2' # Main PLC
+          external: '10.4.43.6'
+
+      # prodmon:
+      #   collect_config: ' collect.yml'
+      #   post_config: 'post.yml'
+
+    10R140Laser_1725:  # 
+      ansible_host: '10.4.42.55'
+      wanIP: '10.4.42.55'
+      lanIP: '192.168.10.254'
+
+      iplist:
+        - # Laser PLC
+          internal: '192.168.10.1'
+          external: '10.4.42.56'
+        - # Auto Gauge PLC
+          internal: '192.168.10.100'
+          external: '10.4.42.150'
+
+      # prodmon:
+      #   collect_config: '10R140 Laser 1725 collect.yml'
+      #   post_config: 'post.yml'
+      
+      laser_db:
+        config: '1725.yml'
+
+
 
     10R80_1501:
       ansible_host: '10.4.45.104'
@@ -79,38 +113,6 @@ prodmon:
       # prodmon:
       #   collect_config: 'Press 240 collect.yml'
       #   post_config: 'post.yml'
-
-  vars:
-      ansible_ssh_user: pi
-      ansible_ssh_pass: pi
-      ansible_become_user: root
-      ansible_become_password: pi
-
-
-
-junk:
-  hosts:
-
-    10R80_Autogage:  # 
-      ansible_host: '10.4.45.104'
-      wanIP: '10.4.45.104'
-      lanIP: '192.168.1.251'
-
-      iplist:
-        -
-          internal: '192.168.1.1' # Main PLC
-          external: '10.4.43.5'
-      mosquitto: true
-      mqtt_bridges:
-        - name: mysql
-          address: '10.4.1.234:1883' 
-          client: 'test-05'   
-
-    test104:
-      ansible_host: '10.4.45.104'
-      wanIP: '10.4.45.104'
-      lanIP: '192.168.1.251'
-
 
   vars:
       ansible_ssh_user: pi
