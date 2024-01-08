@@ -137,7 +137,7 @@
 
   - name: Install Laser database
     include_role:
-      name: laaser_db
+      name: laser_db
     when: laser_db is defined
 
 

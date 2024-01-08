@@ -3,7 +3,7 @@
   ansible.builtin.git:
     repo: https://github.com/Stackpole-International-Stratford/laser_db.git
     dest: /srv/laser_db
-    version: production
+    version: master
 
 - name: Ensure python venv command is installed
   ansible.builtin.apt:
@@ -29,18 +29,21 @@
 
 - name: Copy collect config file to /etc/laser_db/xxx.yml
   ansible.builtin.copy:
-    dest: /etc/laser_db/{{laser_db.config}}
-    src: /srv/laser_db/configs/{{laser_db.config}}
+    dest: /etc/laser_db/{{ item }}.yml
+    src: /srv/laser_db/configs/{{item}}.yml
     remote_src: yes
+  loop: "{{ laser_db.assets }}"
 
 - name: Copy laserdb service file to systemd service folder
   ansible.builtin.copy:
-    src: /srv/prodmon/service_files/laserdb.service
+    src: /srv/prodmon/service_files/laserdb{{ item }}.service
     dest: /etc/systemd/system
     remote_src: true
+  loop: "{{ laser_db.assets }}"
 
 - name: start laserdb
   systemd:
-    name: laserdb.service
+    name: laserdb{{ item }}.service
     state: started
     enabled: yes
+  loop: "{{ laser_db.assets }}"

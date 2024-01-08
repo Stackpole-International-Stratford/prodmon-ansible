@@ -52,8 +52,8 @@ prodmon:
       #   post_config: 'post.yml'
 
     10R140Laser_1725:  # 
-      ansible_host: '10.4.42.55'
-      wanIP: '10.4.42.55'
+      ansible_host: '10.4.45.108'
+      wanIP: '10.4.44.108'
       lanIP: '192.168.10.254'
 
       iplist:
@@ -69,8 +69,8 @@ prodmon:
       #   post_config: 'post.yml'
       
       laser_db:
-        config: '1725.yml'
-
+        assets: 
+          - '1725'
 
 
     10R80_1501:
