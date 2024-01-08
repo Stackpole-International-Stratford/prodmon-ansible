@@ -135,31 +135,17 @@
 #
 ###############################################################################################
 
+  - name: Install Laser database
+    include_role:
+      name: laaser_db
+    when: laser_db is defined
+
+
   # - name: clone laser_db from github
   #   ansible.builtin.git:
   #     repo: https://github.com/Stackpole-International-Stratford/laser_db.git
   #     dest: /srv/laser_db
   #   when: laser_db is defined
-
-  # - name: Install specified python requirements
-  #   ansible.builtin.pip:
-  #     requirements: /srv/laser_db/requirements.txt
-  #   when: laser_db is defined
-
-  # - name: clone prodmon-mqtt from github
-  #   ansible.builtin.git:
-  #     repo: https://github.com/Stackpole-International-Stratford/prodmon-mqtt.git
-  #     dest: /srv/prodmon-mqtt
-  #   when: prodmon-mqtt is defined
-
-  # - name: Install specified python requirements
-  #   ansible.builtin.pip:
-  #     requirements: /srv/prodmon-mqtt/requirements.txt
-  #   when: prodmon-mqtt is defined
- 
-  # - name: Create service file for prodmon-mqtt
-
-
 
 ###############################################################################################
 #

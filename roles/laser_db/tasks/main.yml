@@ -1,0 +1,46 @@
+---
+- name: Git checkout
+  ansible.builtin.git:
+    repo: https://github.com/Stackpole-International-Stratford/laser_db.git
+    dest: /srv/laser_db
+    version: production
+
+- name: Ensure python venv command is installed
+  ansible.builtin.apt:
+    pkg: python3-venv
+    update_cache: yes
+
+- name: Create virtual environment
+  ansible.builtin.shell:
+    cmd: python3 -m venv venv
+    chdir: /srv/laser_db
+
+- name: Install python requirements in virtualenv
+  ansible.builtin.pip:
+    requirements: /srv/laser_db/requirements.txt
+    extra_args: " --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org "
+    virtualenv: /srv/laser_db/venv
+    virtualenv_command: python3.8 -m venv
+
+- name: Verify config directory exists
+  ansible.builtin.file:
+    path: /etc/laser_db
+    state: directory
+
+- name: Copy collect config file to /etc/laser_db/xxx.yml
+  ansible.builtin.copy:
+    dest: /etc/laser_db/{{laser_db.config}}
+    src: /srv/laser_db/configs/{{laser_db.config}}
+    remote_src: yes
+
+- name: Copy laserdb service file to systemd service folder
+  ansible.builtin.copy:
+    src: /srv/prodmon/service_files/laserdb.service
+    dest: /etc/systemd/system
+    remote_src: true
+
+- name: start laserdb
+  systemd:
+    name: laserdb.service
+    state: started
+    enabled: yes
