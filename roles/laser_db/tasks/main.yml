@@ -36,9 +36,13 @@
 
 - name: Copy laserdb service file to systemd service folder
   ansible.builtin.copy:
-    src: /srv/prodmon/service_files/laserdb{{ item }}.service
-    dest: /etc/systemd/system
+    src: /srv/laser_db/service_files/laserdb.service
+    dest: /etc/systemd/system/laserdb{{ item }}.service
     remote_src: true
+  loop: "{{ laser_db.assets }}"
+
+- name: add asset number to service files
+  shell: "sed -i 's/<asset>/{{ item }}/'  /etc/systemd/system/laserdb{{ item }}.service"
   loop: "{{ laser_db.assets }}"
 
 - name: start laserdb
