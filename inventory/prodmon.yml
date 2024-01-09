@@ -1,8 +1,69 @@
 ungrouped:
   hosts:
+    new108:  # 
+      ansible_host: '10.4.45.108'
+      wanIP: '10.4.45.108'
+      lanIP: '192.168.1.250'
+      iplist:
+        -
+          internal: '192.168.1.2' # Main PLC
+          external: '10.4.43.6'
+
+      # prodmon:
+      #   collect_config: ' collect.yml'
+      #   post_config: 'post.yml'
+
+    10R140Laser_1725:  # 
+      ansible_host: '10.4.45.108'
+      wanIP: '10.4.44.108'
+      lanIP: '192.168.10.254'
+
+      iplist:
+        - # Laser PLC
+          internal: '192.168.10.1'
+          external: '10.4.42.56'
+        - # Auto Gauge PLC
+          internal: '192.168.10.100'
+          external: '10.4.42.150'
+
+      # prodmon:
+      #   collect_config: '10R140 Laser 1725 collect.yml'
+      #   post_config: 'post.yml'
+      
+      laser_db:
+        assets: 
+          - '1725'
+
 
 prodmon:
   hosts:
+
+    10R80_Uplift_balancer:  # 10R80 Uplift OP30/40/50/60
+      ansible_host: '10.4.42.66' 
+      wanIP: '10.4.42.66'
+      lanIP: '192.168.1.254'
+      iplist:
+        - 
+          internal: '192.168.1.21' # OP 50/60 PLC 1548 1549
+          external: '10.4.42.69'
+        - 
+          internal: '192.168.1.1' # OP 30/40 PLC 1546 1547
+          external: '10.4.42.68'
+      prodmon:
+        collect_config: '10R80 Uplift OP30-40-Bal-Slurry collect.yml'
+        post_config: 'post.yml'
+
+    10R80_Uplift_OP70_80:  # OP70 594 / Grind 1551 
+      ansible_host: '10.4.42.27'
+      wanIP: '10.4.42.27'
+      lanIP: '192.168.1.254'
+      iplist:
+        -
+          internal: '192.168.1.41' # Main PLC
+          external: '10.4.42.28'
+      prodmon:
+        collect_config: '10R80 Uplift OP70 collect.yml'
+        post_config: 'post.yml'
 
     10R80_Uplift_Bush_Press_1552:  # Bushing Press 1552
       ansible_host: '10.4.42.67'
@@ -66,41 +127,6 @@ prodmon:
         collect_config: '10R60 Autogauge 1816 collect.yml'
         post_config: 'post.yml'
 
-    new108:  # 
-      ansible_host: '10.4.45.108'
-      wanIP: '10.4.45.108'
-      lanIP: '192.168.1.250'
-      iplist:
-        -
-          internal: '192.168.1.2' # Main PLC
-          external: '10.4.43.6'
-
-      # prodmon:
-      #   collect_config: ' collect.yml'
-      #   post_config: 'post.yml'
-
-    10R140Laser_1725:  # 
-      ansible_host: '10.4.45.108'
-      wanIP: '10.4.44.108'
-      lanIP: '192.168.10.254'
-
-      iplist:
-        - # Laser PLC
-          internal: '192.168.10.1'
-          external: '10.4.42.56'
-        - # Auto Gauge PLC
-          internal: '192.168.10.100'
-          external: '10.4.42.150'
-
-      # prodmon:
-      #   collect_config: '10R140 Laser 1725 collect.yml'
-      #   post_config: 'post.yml'
-      
-      laser_db:
-        assets: 
-          - '1725'
-
-
     10R80_1501:
       ansible_host: '10.4.45.104'
       wanIP: '10.4.45.104'
@@ -113,7 +139,6 @@ prodmon:
       prodmon:
         collect_config: '10R80 Main OP40 Cell2 1501.yml'
         post_config: 'post.yml'
-
 
     GFxGauge_1617:
       ansible_host: '10.4.45.106'
