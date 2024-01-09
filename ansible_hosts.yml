@@ -142,33 +142,6 @@ all:
     MainLine10R80:
       hosts:
 
-        10R80Gauge:  # 10R80 auto gauge 1533
-          ansible_host: '10.4.45.101' 
-          wanIP: '10.4.45.101'
-          lanIP: '192.168.1.250'
-          iplist:
-            - 
-              internal: '192.168.1.2' # Gauge PLC
-              external: '10.4.42.48'
-            - 
-              internal: '192.168.1.61' # Laser 1 PLC 1534
-              external: '10.4.43.201'
-            - 
-              internal: '192.168.1.67' # Laser 2 PLC 1505
-              external: '10.4.43.202'
-
-          prodmon:
-            collect_config: '10R80 Autogauge 1533 collect.yml'
-            post_config: 'post.yml'
-
-          dashboard:
-            dash_url: ''
-
-
-
-
-
-
         10.4.42.181:  # Bushing Press 1513
           wanIP: '10.4.42.181'
           lanIP: '192.168.1.251'
@@ -318,15 +291,6 @@ all:
               internal: '192.168.1.1' # OP 30/40 PLC 1546 1547
               external: '10.4.42.68'
               
-        Bush_Press:  # Bushing Press 1552
-          ansible_host: '10.4.42.67'
-          wanIP: '10.4.42.67'
-          lanIP: '192.168.1.254'
-          iplist:
-            -
-              internal: '192.168.1.10' # Main PLC
-              external: '10.4.42.70'
-
         OP70_80_Robot:  # OP70 594 / Grind 1551 
           ansible_host: '10.4.42.27'
           wanIP: '10.4.42.27'
@@ -335,15 +299,6 @@ all:
             -
               internal: '192.168.1.41' # Main PLC
               external: '10.4.42.28'
-
-        OP100_110_Robot:  #  
-          ansible_host: '10.4.42.151'
-          wanIP: '10.4.42.151'
-          lanIP: '192.168.1.253'
-          iplist:
-            -
-              internal: '192.168.1.61' # Main PLC
-              external: '10.4.42.152'
 
       vars:
         ansible_ssh_user: root

@@ -3,6 +3,19 @@ ungrouped:
 
 prodmon:
   hosts:
+
+    10R80_Uplift_Bush_Press_1552:  # Bushing Press 1552
+      ansible_host: '10.4.42.67'
+      wanIP: '10.4.42.67'
+      lanIP: '192.168.1.254'
+      iplist:
+        -
+          internal: '192.168.1.10' # Main PLC
+          external: '10.4.42.70'
+      prodmon:
+        collect_config: '10R80 Uplift BushPress collect.yml'
+        post_config: 'post.yml'
+
     10R80_OP110_Uplift:  # machine 1554
       ansible_host: '10.4.42.151'
       wanIP: '10.4.42.151'
@@ -14,7 +27,6 @@ prodmon:
         -
           internal: '192.168.1.10' # Nagel Polisher PLC
           external: '10.4.43.30'
-
       prodmon:
         collect_config: '10R80 Uplift OP100-110 collect.yml'
         post_config: 'post.yml'
