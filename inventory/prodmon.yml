@@ -186,9 +186,25 @@ prodmon:
         -
           internal: '192.168.10.10' # Main PLC
           external: '10.4.43.64'
-      # prodmon:
-      #   collect_config: 'Press 240 collect.yml'
-      #   post_config: 'post.yml'
+      prodmon:
+        collect_config: 'Compact 240 Press collect.yml'
+        post_config: 'post.yml'
+
+    Press242:
+      ansible_host: '10.4.43.66'
+      wanIP: '10.4.43.66'
+      lanIP: '192.168.10.250'
+      iplist:
+          -
+            internal: '192.168.10.10' # Main PLC
+            external: '10.4.42.238'
+          -
+            internal: '192.168.10.20' # IOLink Block 1
+            external: '10.4.44.200'
+      prodmon:
+        collect_config: 'Compact 242 Press collect.yml'
+        post_config: 'post.yml'
+
 
   vars:
       ansible_ssh_user: pi

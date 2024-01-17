@@ -52,17 +52,6 @@ all:
 
     Compacting:
       hosts:
-        10.4.43.66: # 242 Press
-          wanIP: '10.4.43.66'
-          lanIP: '192.168.10.250'
-          iplist:
-            -
-              internal: '192.168.10.10' # Main PLC
-              external: '10.4.42.238'
-            -
-              internal: '192.168.10.20' # IOLink Block 1
-              external: '10.4.44.200'
-
         10.4.45.201: # 242 Press Display
           wanIP: '10.4.45.201'
           lanIP: '192.168.10.250'
@@ -73,6 +62,9 @@ all:
             -
               internal: '192.168.10.10' # Main PLC
               external: '10.4.42.238'
+
+
+
 
 
 
