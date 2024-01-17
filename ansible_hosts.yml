@@ -142,13 +142,6 @@ all:
     MainLine10R80:
       hosts:
 
-        10.4.42.181:  # Bushing Press 1513
-          wanIP: '10.4.42.181'
-          lanIP: '192.168.1.251'
-          iplist:
-            -
-              internal: '192.168.1.1' # Main PLC tending 1513
-              external: '10.4.43.200'
 
         10.4.43.55:  # OP110 1528
           wanIP: '10.4.43.55'
@@ -279,26 +272,6 @@ all:
               internal: '192.168.1.1' # OP30 Tongtai 1555
               external: '10.4.42.77'
               
-        BE_balancer:  # 10R80 Uplift OP30/40/50/60
-          ansible_host: '10.4.42.66' 
-          wanIP: '10.4.42.66'
-          lanIP: '192.168.1.254'
-          iplist:
-            - 
-              internal: '192.168.1.21' # OP 50/60 PLC 1548 1549
-              external: '10.4.42.69'
-            - 
-              internal: '192.168.1.1' # OP 30/40 PLC 1546 1547
-              external: '10.4.42.68'
-              
-        OP70_80_Robot:  # OP70 594 / Grind 1551 
-          ansible_host: '10.4.42.27'
-          wanIP: '10.4.42.27'
-          lanIP: '192.168.1.254'
-          iplist:
-            -
-              internal: '192.168.1.41' # Main PLC
-              external: '10.4.42.28'
 
       vars:
         ansible_ssh_user: root

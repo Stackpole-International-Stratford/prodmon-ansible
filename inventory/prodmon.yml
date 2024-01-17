@@ -37,6 +37,35 @@ ungrouped:
 
 prodmon:
   hosts:
+    10R80_Main_BushPress:  # Bushing Press 1513
+      ansible_host: '10.4.42.181'
+      wanIP: '10.4.42.181'
+      lanIP: '192.168.1.251'
+      iplist:
+        -
+          internal: '192.168.1.1' # Main PLC tending 1513
+          external: '10.4.43.200'
+      prodmon:
+        collect_config: '10R80 BushPress 1514 collect.yml'
+        post_config: 'post.yml'
+
+    10R80_OP100-110:  # 10R80 Main OP110  Off OP100
+      ansible_host: '10.4.43.53'
+      wanIP: '10.4.43.53'
+      lanIP: '192.168.1.253'
+      iplist:
+        -
+          internal: '192.168.1.50' # Main PLC Tending 1511
+          external: '10.4.43.112'
+        -
+          internal: '192.168.1.170' # Main PLC Tending 1530
+          external: '10.4.43.113'
+        -
+          internal: '192.168.1.58' # OP120 De-elevator
+          external: '10.4.43.115'
+      prodmon:
+        collect_config: '10R80 OP100-110 collect.yml'
+        post_config: 'post.yml'
 
     10R80_Uplift_balancer:  # 10R80 Uplift OP30/40/50/60
       ansible_host: '10.4.42.66' 
@@ -106,7 +135,6 @@ prodmon:
         -
           internal: '192.168.1.67' # Laser 2 PLC 1505
           external: '10.4.43.202'
-
       prodmon:
         collect_config: '10R80 Autogauge 1533 collect.yml'
         post_config: 'post.yml'
@@ -122,7 +150,6 @@ prodmon:
         -
           internal: '192.168.1.10' # Laser Marker PLC 1811
           external: '10.4.42.98'
-
       prodmon:
         collect_config: '10R60 Autogauge 1816 collect.yml'
         post_config: 'post.yml'
@@ -135,7 +162,6 @@ prodmon:
         -
           internal: '192.168.1.80'  # material handling plc
           external: '10.4.43.110'
-      
       prodmon:
         collect_config: '10R80 Main OP40 Cell2 1501.yml'
         post_config: 'post.yml'
@@ -148,11 +174,9 @@ prodmon:
         -
           internal: '192.168.1.1'  # main plc
           external: '10.4.43.7'
-      
       prodmon:
         collect_config: 'GFx Autogague 1617 collect.yml'
         post_config: 'post.yml'
-
 
     Press240:
       ansible_host: '10.4.45.105'
@@ -162,7 +186,6 @@ prodmon:
         -
           internal: '192.168.10.10' # Main PLC
           external: '10.4.43.64'
-
       # prodmon:
       #   collect_config: 'Press 240 collect.yml'
       #   post_config: 'post.yml'
