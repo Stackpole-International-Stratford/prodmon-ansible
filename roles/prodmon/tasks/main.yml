@@ -48,7 +48,7 @@
 - name: start collect
   systemd:
     name: collect.service
-    state: started
+    state: restarted
     enabled: yes
 
 - name: Copy post service file to systemd service folder
@@ -60,5 +60,5 @@
 - name: start post
   systemd:
     name: post.service
-    state: started
+    state: restarted
     enabled: yes
