@@ -205,6 +205,17 @@ prodmon:
         collect_config: 'Compact 242 Press collect.yml'
         post_config: 'post.yml'
 
+    10R_Assembler:
+      ansible_host: '10.4.45.108'
+      wanIP: '10.4.45.108'
+      lanIP: '192.168.10.254'
+      iplist:
+        -
+          internal: '192.168.1.1' # Main PLC
+          external: '10.4.43.10'
+      prodmon:
+        collect_config: '10R80 Assembler 1516 collect.yml'
+        post_config: 'post.yml'
 
   vars:
       ansible_ssh_user: pi
