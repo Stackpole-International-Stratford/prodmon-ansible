@@ -34,6 +34,71 @@ ungrouped:
         assets: 
           - '1725'
 
+prodmon-jemes:
+  hosts:
+    10R80_OP100-110_Main:  # 10R80 Main OP110  Off OP100
+      ansible_host: '10.4.43.53'
+      wanIP: '10.4.43.53'
+      lanIP: '192.168.1.253'
+      iplist:
+        -
+          internal: '192.168.1.50' # Main PLC Tending 1511
+          external: '10.4.43.112'
+        -
+          internal: '192.168.1.170' # Main PLC Tending 1530
+          external: '10.4.43.113'
+        -
+          internal: '192.168.1.58' # OP120 De-elevator
+          external: '10.4.43.115'
+      prodmon:
+        git_branch: write-to-mqtt
+        collect_config: '10R80 OP100-110 collect.yml'
+        post_config: 'post-jemes-mqtt.yml'
+
+    10R80Gauge_1533:  # 10R80 auto gauge 1533
+      ansible_host: '10.4.45.101'
+      wanIP: '10.4.45.101'
+      lanIP: '192.168.1.250'
+      iplist:
+        -
+          internal: '192.168.1.2' # Main Cell PLC
+          external: '10.4.43.5'
+        -
+          internal: '192.168.1.61' # Laser 1 PLC 1534
+          external: '10.4.43.201'
+        -
+          internal: '192.168.1.67' # Laser 2 PLC 1505
+          external: '10.4.43.202'
+      prodmon:
+        # new mqtt configs
+        git_branch: 'write-to-mqtt'
+        collect_config: '10R80 Autogauge 1533 collect.yml'
+        post_config: 'post-jemes-mqtt.yml'
+
+    TrilobeSlurry: # Trilobe Slurry 742
+      ansible_host: '10.4.45.109'
+      wanIP: '10.4.45.109'
+      lanIP: '192.168.1.254'
+      iplist:
+        -
+          internal: '192.168.1.1'
+          external: '10.4.43.220'
+
+      prodmon:
+        git_branch: 'write-to-mqtt'
+        collect_config: 'Trilob Slurry 742 collect.yml'
+        post_config: 'post-jemes-mqtt.yml'
+        
+
+
+
+
+  vars:
+    ansible_ssh_user: pi
+    ansible_ssh_pass: pi
+    ansible_become_user: root
+    ansible_become_password: pi
+
 prodmon:
   hosts:
     10R80_Main_BushPress:  # Bushing Press 1513
@@ -96,25 +161,6 @@ prodmon:
           internal: '192.168.1.40' # Main PLC
           external: '10.4.43.100'
 
-    10R80_OP100-110_Main:  # 10R80 Main OP110  Off OP100
-      ansible_host: '10.4.43.53'
-      wanIP: '10.4.43.53'
-      lanIP: '192.168.1.253'
-      iplist:
-        -
-          internal: '192.168.1.50' # Main PLC Tending 1511
-          external: '10.4.43.112'
-        -
-          internal: '192.168.1.170' # Main PLC Tending 1530
-          external: '10.4.43.113'
-        -
-          internal: '192.168.1.58' # OP120 De-elevator
-          external: '10.4.43.115'
-      prodmon:
-        git_branch: write-to-mqtt
-        collect_config: '10R80 OP100-110 collect.yml'
-        post_config: 'post-jemes-mqtt.yml'
-
     10R80_OP110_Offline:  # OP110 1528
       ansible_host: '10.4.43.55'
       wanIP: '10.4.43.55'
@@ -141,26 +187,6 @@ prodmon:
       prodmon:
         collect_config: '10R80 Uplift OP100-110 collect.yml'
         post_config: 'post.yml'
-
-    10R80Gauge_1533:  # 10R80 auto gauge 1533
-      ansible_host: '10.4.45.101'
-      wanIP: '10.4.45.101'
-      lanIP: '192.168.1.250'
-      iplist:
-        -
-          internal: '192.168.1.2' # Main Cell PLC
-          external: '10.4.43.5'
-        -
-          internal: '192.168.1.61' # Laser 1 PLC 1534
-          external: '10.4.43.201'
-        -
-          internal: '192.168.1.67' # Laser 2 PLC 1505
-          external: '10.4.43.202'
-      prodmon:
-        # new mqtt configs
-        git_branch: 'write-to-mqtt'
-        collect_config: '10R80 Autogauge 1533 collect.yml'
-        post_config: 'post-jemes-mqtt.yml'
 
     10R60Gauge_1816:  # 10R60 auto gauge 1816
       ansible_host: '10.4.45.107'
@@ -270,20 +296,6 @@ prodmon:
         collect_config: 'Optimised Slury Inducto collect.yml'
         post_config: 'post.yml'
 
-    TrilobeSlurry: # Trilobe Slurry 742
-      ansible_host: '10.4.45.109'
-      wanIP: '10.4.45.109'
-      lanIP: '192.168.1.254'
-      iplist:
-        -
-          internal: '192.168.1.1'
-          external: '10.4.43.220'
-
-      prodmon:
-        git_branch: 'write-to-mqtt'
-        collect_config: 'Trilob Slurry 742 collect.yml'
-        post_config: 'post-jemes-mqtt.yml'
-        
 
     AB1VLaser1750:
       ansible_host: '10.4.42.60'
