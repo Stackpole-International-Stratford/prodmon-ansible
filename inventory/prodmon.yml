@@ -156,9 +156,8 @@ prodmon:
           internal: '192.168.1.67' # Laser 2 PLC 1505
           external: '10.4.43.202'
       prodmon:
-#        collect_config: '10R80 Autogauge 1533 collect.yml'
-#        post_config: 'post.yml'
         # new mqtt configs
+        git_branch: 'write-to-mqtt'
         collect_config: '10R80 Autogauge 1533 collect.yml'
         post_config: 'post-jemes-mqtt.yml'
 
@@ -280,6 +279,7 @@ prodmon:
           external: '10.4.43.220'
 
       prodmon:
+        git_branch: 'write-to-mqtt'
         collect_config: 'Trilob Slurry 742 collect.yml'
         post_config: 'post-jemes-mqtt.yml'
         
