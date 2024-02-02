@@ -217,6 +217,52 @@ prodmon:
         collect_config: '10R80 Assembler 1516 collect.yml'
         post_config: 'post.yml'
 
+    AB1VLaser1750:
+      ansible_host: '10.4.42.60'
+      wanIP: '10.4.42.60'
+      lanIP: '192.168.1.254'
+      # laser_db: true
+      iplist:
+        - # Automation PLC
+          internal: '192.168.1.3'
+          external: '10.4.42.45'
+      prodmon:
+        collect_config: 'AB1V Laser 1750 collect.yml'
+        post_config: 'post.yml'
+
+    Laser1724:
+      ansible_host: '10.4.42.53'
+      wanIP: '10.4.42.53'
+      lanIP: '192.168.10.254'
+      # laser_db: true
+      iplist:
+        - # Automation PLC
+          internal: '192.168.10.1'
+          external: '10.4.42.54'
+      prodmon:
+        collect_config: 'AB1V Rx Laser 1724 collect.yml'
+        post_config: 'post.yml'
+
+    'Laser1725':
+      ansible_host: '10.4.42.55'
+      wanIP: '10.4.42.55'
+      lanIP: '192.168.10.254'
+      # laser_db: true
+      iplist:
+        - # Automation PLC
+          internal: '192.168.10.1'
+          external: '10.4.42.56'
+        - # Auto Gauge PLC
+          internal: '192.168.10.100'
+          external: '10.4.42.150'
+      prodmon:
+        collect_config: 'AB1V Laser 1725 collect.yml'
+        post_config: 'post.yml'
+
+
+
+
+
   vars:
       ansible_ssh_user: pi
       ansible_ssh_pass: pi
