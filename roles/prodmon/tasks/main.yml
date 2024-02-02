@@ -3,7 +3,7 @@
   ansible.builtin.git:
     repo: 'https://github.com/Stackpole-International-Stratford/prodmon2024.git'
     dest: /srv/prodmon
-    version: write-to-mqtt
+    version: "{{prodmon.git_branch | default('production')}}"
 
 - name: Ensure python venv command is installed
   ansible.builtin.apt:
