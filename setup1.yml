@@ -57,6 +57,20 @@
       daemon_reload: true
     when: dns_updated.changed
 
+
+###############################################################################################
+#
+# setup for ssh key logins
+#
+##############################################################################################
+
+  - name: Set authorized key taken from file
+    authorized_key:
+      user: pi
+      state: present
+      key: "{{ lookup('file', '/home/pi/prodmon-config/cstrutton.pub') }}"
+
+
 ###############################################################################################
 #
 # update apt and install basic packages
