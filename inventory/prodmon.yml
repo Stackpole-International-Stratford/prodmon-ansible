@@ -156,8 +156,11 @@ prodmon:
           internal: '192.168.1.67' # Laser 2 PLC 1505
           external: '10.4.43.202'
       prodmon:
+#        collect_config: '10R80 Autogauge 1533 collect.yml'
+#        post_config: 'post.yml'
+        # new mqtt configs
         collect_config: '10R80 Autogauge 1533 collect.yml'
-        post_config: 'post.yml'
+        post_config: 'post-jemes-mqtt.yml'
 
     10R60Gauge_1816:  # 10R60 auto gauge 1816
       ansible_host: '10.4.45.107'
@@ -267,18 +270,18 @@ prodmon:
         collect_config: 'Optimised Slury Inducto collect.yml'
         post_config: 'post.yml'
 
-    TrilobeSlurry: # Trilobe Slurry 650
+    TrilobeSlurry: # Trilobe Slurry 742
       ansible_host: '10.4.45.109'
       wanIP: '10.4.45.109'
       lanIP: '192.168.1.254'
-      # iplist:
-      #   -
-      #     internal: '192.168.1.1'
-      #     external: '10.4.42.76'
+      iplist:
+        -
+          internal: '192.168.1.1'
+          external: '10.4.43.220'
 
       prodmon:
-        collect_config: 'Trilob Slurry 650 collect.yml'
-        post_config: 'test-post-jemes-mqtt.yml'
+        collect_config: 'Trilob Slurry 742 collect.yml'
+        post_config: 'post-jemes-mqtt.yml'
         
 
     AB1VLaser1750:
