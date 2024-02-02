@@ -3,7 +3,7 @@
   ansible.builtin.git:
     repo: 'https://github.com/Stackpole-International-Stratford/prodmon2024.git'
     dest: /srv/prodmon
-    version: production
+    version: write-to-mqtt
 
 - name: Ensure python venv command is installed
   ansible.builtin.apt:
@@ -12,10 +12,10 @@
     cache_valid_time: 3600
 
 
-- name: Create virtual environment
-  ansible.builtin.shell:
-    cmd: python3 -m venv venv
-    chdir: /srv/prodmon
+# - name: Create virtual environment
+#   ansible.builtin.shell:
+#     cmd: python3 -m venv venv
+#     chdir: /srv/prodmon
 
 - name: Install python requirements in virtualenv
   ansible.builtin.pip:
