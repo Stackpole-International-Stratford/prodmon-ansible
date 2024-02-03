@@ -34,8 +34,25 @@ ungrouped:
         assets: 
           - '1725'
 
-prodmon-jemes:
+prodmon_jemes:
   hosts:
+
+    10R80_OP70_Main:  # OP70 1514
+      wanIP: '10.4.42.176'
+      lanIP: '192.168.1.254'
+      iplist:
+        -
+          internal: '192.168.1.10' 
+          external: '10.4.43.102'
+      prodmon:
+        git_branch: write-to-mqtt
+        collect_config: '10R80 Main OP70 1514 collect.yml'
+        post_config: 'post-jemes-mqtt.yml'
+
+
+
+
+
     10R80_Main_BushPress:  # Bushing Press 1513
       ansible_host: '10.4.42.181'
       wanIP: '10.4.42.181'
