@@ -201,6 +201,13 @@ prodmon:
           -
             internal: '192.168.10.20' # IOLink Block 1
             external: '10.4.44.200'
+          -
+            internal: '192.168.10.21' # IOLink Block 2
+            external: '10.4.44.201'
+          -
+            internal: '192.168.10.22' # IOLink Block 3
+            external: '10.4.44.202'
+
       prodmon:
         collect_config: 'Compact 242 Press collect.yml'
         post_config: 'post.yml'
@@ -243,7 +250,7 @@ prodmon:
         collect_config: 'AB1V Rx Laser 1724 collect.yml'
         post_config: 'post.yml'
 
-    'Laser1725':
+    Laser1725:
       ansible_host: '10.4.42.55'
       wanIP: '10.4.42.55'
       lanIP: '192.168.10.254'
@@ -256,7 +263,7 @@ prodmon:
           internal: '192.168.10.100'
           external: '10.4.42.150'
       prodmon:
-        collect_config: 'AB1V Laser 1725 collect.yml'
+        collect_config: '10R140 Laser 1725 collect.yml'
         post_config: 'post.yml'
 
 
