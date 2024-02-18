@@ -1,7 +1,7 @@
 ---
 - name: Git checkout
   ansible.builtin.git:
-    repo: 'https://github.com/cstrutton/mqtt-collect.git'
+    repo: 'https://github.com/Stackpole-International-Stratford/prodmon2024.git'
     dest: /srv/prodmon
     version: production
 

@@ -34,7 +34,6 @@ ungrouped:
         assets: 
           - '1725'
 
-
 prodmon:
   hosts:
     10R80_Main_BushPress:  # Bushing Press 1513
@@ -46,25 +45,7 @@ prodmon:
           internal: '192.168.1.1' # Main PLC tending 1513
           external: '10.4.43.200'
       prodmon:
-        collect_config: '10R80 BushPress 1514 collect.yml'
-        post_config: 'post.yml'
-
-    10R80_OP100-110:  # 10R80 Main OP110  Off OP100
-      ansible_host: '10.4.43.53'
-      wanIP: '10.4.43.53'
-      lanIP: '192.168.1.253'
-      iplist:
-        -
-          internal: '192.168.1.50' # Main PLC Tending 1511
-          external: '10.4.43.112'
-        -
-          internal: '192.168.1.170' # Main PLC Tending 1530
-          external: '10.4.43.113'
-        -
-          internal: '192.168.1.58' # OP120 De-elevator
-          external: '10.4.43.115'
-      prodmon:
-        collect_config: '10R80 OP100-110 collect.yml'
+        collect_config: '10R80 BushPress 1513 collect.yml'
         post_config: 'post.yml'
 
     10R80_Uplift_balancer:  # 10R80 Uplift OP30/40/50/60
@@ -106,7 +87,46 @@ prodmon:
         collect_config: '10R80 Uplift BushPress collect.yml'
         post_config: 'post.yml'
 
-    10R80_OP110_Uplift:  # machine 1554
+    10R80_OP100_Main:  # 10R80 Main Bushing Bore 1503
+      ansible_host: '10.4.42.182'
+      wanIP: '10.4.42.182'
+      lanIP: '192.168.1.254'
+      iplist:
+        -
+          internal: '192.168.1.40' # Main PLC
+          external: '10.4.43.100'
+
+    10R80_OP100-110_Main:  # 10R80 Main OP110  Off OP100
+      ansible_host: '10.4.43.53'
+      wanIP: '10.4.43.53'
+      lanIP: '192.168.1.253'
+      iplist:
+        -
+          internal: '192.168.1.50' # Main PLC Tending 1511
+          external: '10.4.43.112'
+        -
+          internal: '192.168.1.170' # Main PLC Tending 1530
+          external: '10.4.43.113'
+        -
+          internal: '192.168.1.58' # OP120 De-elevator
+          external: '10.4.43.115'
+      prodmon:
+        collect_config: '10R80 OP100-110 collect.yml'
+        post_config: 'post.yml'
+
+    10R80_OP110_Offline:  # OP110 1528
+      ansible_host: '10.4.43.55'
+      wanIP: '10.4.43.55'
+      lanIP: '192.168.1.251'
+      iplist:
+        -
+          internal: '192.168.1.180' # Main PLC tending 1528
+          external: '10.4.43.114'
+      prodmon:
+        collect_config: '10R80 Offline OP110 collect.yml'
+        post_config: 'post.yml'
+
+    10R80_OP110_Uplift:  # machine 1554/751
       ansible_host: '10.4.42.151'
       wanIP: '10.4.42.151'
       lanIP: '192.168.1.253'
@@ -223,6 +243,30 @@ prodmon:
       prodmon:
         collect_config: '10R80 Assembler 1516 collect.yml'
         post_config: 'post.yml'
+
+
+    Optimized: # Optimized Broach, Inducto & slurry
+      ansible_host: '10.4.42.75'
+      wanIP: '10.4.42.75'
+      lanIP: '192.168.1.254'
+      iplist:
+        -
+          internal: '192.168.1.1'
+          external: '10.4.42.76'
+        -
+          internal: '192.168.1.24'
+          external: '10.4.42.120'
+        -
+          internal: '192.168.1.26'
+          external: '10.4.42.121'
+        -
+          internal: '192.168.1.28'
+          external: '10.4.42.122'
+
+      prodmon:
+        collect_config: 'Optimised Slury Inducto collect.yml'
+        post_config: 'post.yml'
+
 
     AB1VLaser1750:
       ansible_host: '10.4.42.60'

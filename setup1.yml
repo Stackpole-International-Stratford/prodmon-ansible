@@ -246,6 +246,10 @@
     ansible.builtin.shell:
       cmd: sed -i '/#NTP=/c\NTP=10.4.1.200' /etc/systemd/timesyncd.conf
 
+  - name: set RootDistanceMaxSec=50
+    ansible.builtin.shell:
+      cmd: sed -i '/#RootDistanceMaxSec=/c\#RootDistanceMaxSec=50' /etc/systemd/timesyncd.conf
+
   - name: ensure systemd-timesyncd is enabled and started
     ansible.builtin.systemd:
       name: systemd-timesyncd
