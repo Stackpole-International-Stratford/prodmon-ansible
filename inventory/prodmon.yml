@@ -267,6 +267,19 @@ prodmon:
         collect_config: 'Optimised Slury Inducto collect.yml'
         post_config: 'post.yml'
 
+    TrilobeSlurry: # Trilobe Slurry 650
+      ansible_host: '10.4.45.109'
+      wanIP: '10.4.45.109'
+      lanIP: '192.168.1.254'
+      # iplist:
+      #   -
+      #     internal: '192.168.1.1'
+      #     external: '10.4.42.76'
+
+      prodmon:
+        collect_config: 'Trilob Slurry 650 collect.yml'
+        post_config: 'test-post-jemes-mqtt.yml'
+        
 
     AB1VLaser1750:
       ansible_host: '10.4.42.60'
